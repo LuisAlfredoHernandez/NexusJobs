@@ -1,37 +1,59 @@
 import React from 'react'
-import { View, Text, StyleSheet } from 'react-native'
+import { View, Text, StyleSheet, TouchableOpacity, Image } from 'react-native'
+import IconoLinkedin from '../assets/Iconos Linkedin.svg'
+import IconoGoogle from '../assets/Iconos Google.svg'
+import IconoFacebook from '../assets/Iconos FB.svg'
 
-const footer = props => {
+export default function Footer(props) {
+    const { iconsBackgroundColor, IconsTitleBackground } = props
+
+    const stylingIcons = () => {
+        if (!iconsBackgroundColor) {
+            iconsBackgroundColor = '#ffffff';
+        }
+        return {
+            flex: 3.5,
+            flexDirection: 'row',
+            backgroundColor: iconsBackgroundColor,
+            justifyContent: 'space-around',
+            width: '50%',
+            alignItems: 'center'
+        }
+    }
+
     return (
-        <View style={styles.container}>
+        <View style={{ flex: 1, backgroundColor: iconsBackgroundColor, alignItems: 'center',}}>
             <View style={styles.labelsContainer}>
                 <Text style={styles.divisionLabel} />
-                <Text style={styles.footerText}>Iniciar sesión con</Text>
+                <Text style={{ fontSize: 17, fontWeight: 'bold', color: IconsTitleBackground  }}> Iniciar sesión con </Text>
                 <Text style={styles.divisionLabel} />
             </View>
 
-            <View style={styles.iconsContainer}>
-                  
+            <View style={stylingIcons()}>
+                <TouchableOpacity style={styles.icons}>
+                    <IconoLinkedin />
+                </TouchableOpacity>
+
+                <TouchableOpacity style={styles.icons}>
+                    <IconoGoogle />
+                </TouchableOpacity>
+
+                <TouchableOpacity style={styles.icons}>
+                    <IconoFacebook />
+                </TouchableOpacity>
             </View>
         </View>
     )
 }
 
-export default footer
-
-
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: '#EDF1F7'
-    },
-
     labelsContainer: {
-        marginTop: 100,
+        flex: 2.5,
         flexDirection: 'row',
         width: '100%',
-        justifyContent: 'space-around'
+        justifyContent: 'space-around',
+        alignItems: 'center'
     },
 
     footerText: {
@@ -42,16 +64,23 @@ const styles = StyleSheet.create({
     },
 
     divisionLabel: {
-        height: 2,
-        width: '20%',
-        backgroundColor: 'grey',
+        height: 3,
+        width: '18%',
+        backgroundColor: '#d6d6d6',
         marginTop: 10
-
     },
 
-    iconsContainer: {
-        marginTop: 10,
-
+    icons: {
+        height: '70%',
+        width: '24%',
+        backgroundColor: 'white',
+        borderWidth: 4,
+        borderColor: 'white',
+        borderRadius: 4
     },
 
+    iconsImage: {
+        height: '100%',
+        width: '100%'
+    }
 })

@@ -5,11 +5,11 @@ import Login from  './screens/Login'
 import Registro from './screens/registro'
 import SplashScreen from './screens/splashScreen'
 import Footer from './components/footer'
-
+import BackIcon from './components/backIcon'
 
 export default function App() {
   return (
-   <SplashScreen/>
+   <BackIcon />
   );
 
 

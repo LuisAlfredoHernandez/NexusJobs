@@ -1,9 +1,9 @@
 import { StatusBar } from 'expo-status-bar';
 import React from 'react';
-import { TouchableOpacity, Text } from 'react-native';
+import { TouchableOpacity, ImageBackground } from 'react-native';
 
 export default function RegularButtonComponent(props) {
-    const {color, texto, textColor } = props;
+    const {color,  textColor } = props;
 
     const styling = () => {
         if (!color) {
@@ -22,7 +22,7 @@ export default function RegularButtonComponent(props) {
 
     return (
         <TouchableOpacity style={styling()} >
-            <Text style={ {color:textColor, fontSize:17, fontWeight:'bold'} } >{texto}</Text>
+           <ImageBackground source={require('../assets/Iconos atras.svg')}/>
         </TouchableOpacity>
     );
 }
