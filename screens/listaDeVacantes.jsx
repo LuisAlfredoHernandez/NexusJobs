@@ -2,17 +2,16 @@ import { StatusBar } from 'expo-status-bar'
 import React from 'react'
 import { StyleSheet, TextInput, View, Button, TouchableOpacity, Text } from 'react-native'
 import RegularButton from '../components/regularButton'
-import Footer from '../components/footer'
+import FooterWT from '../components/footerWithTabs'
 import BackIcon from '../components/backIcon'
-import Header from '../components/HeaderWithTabs'
+import TabsHeader from '../components/HeaderWithTabs'
 
 export default function Registro() {
     return (
         <View style={styles.container}>
 
             <View style={styles.headerContainer}>
-                <Header />
-
+                <TabsHeader />
             </View>
 
             <View style={styles.segmentation}>
@@ -22,7 +21,7 @@ export default function Registro() {
             </View>
 
             <View style={styles.footerContainer}>
-                <Footer iconsBackgroundColor={'red'} />
+                <FooterWT />
             </View>
 
         </View>
@@ -44,14 +43,14 @@ const styles = StyleSheet.create({
     },
 
     segmentation: {
-        flex: 4.4,
+        flex: 4.2,
         backgroundColor: "yellow",
         width: '100%'
     },
 
     footerContainer: {
         backgroundColor: "red",
-        flex: 0.5,
+        flex: 0.7,
     }
 
 });
