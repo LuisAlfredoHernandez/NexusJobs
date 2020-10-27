@@ -1,15 +1,20 @@
-import { StatusBar } from 'expo-status-bar';
-import React from 'react';
-import { StyleSheet, View, Text } from 'react-native';
-import RegularButton from './components/regularButton'
+import React from 'react'
+import { StyleSheet, View, Text } from 'react-native'
+import RegularButton from '../components/regularButton'
+import BackButton from '../components/backIcon'
 
-export default function App() {
-  const  color = styles.button.backgroundColor;
+export default function Seleccion() {
+
   return (
     <View style={styles.container}>
-      <Text style={styles.headerText}>Seleccione</Text>
-      <RegularButton texto={'Masculino'} color= {styles.button.backgroundColor} />
-      <RegularButton texto={'Femenino'}  color= {styles.button.backgroundColor}/>
+      <View style={styles.headerContainer}>
+        <BackButton style={ styles.backButton } color={'#EDF1F7f0'} />
+        <Text style={styles.headerText}>Seleccione</Text>
+      </View>
+      <View style={styles.buttonsContainer}>
+        <RegularButton texto={'Masculino'} color={'#EDF1F7f0'} textColor={'#9a73ef'} />
+        <RegularButton texto={'Femenino'} color={'#EDF1F7f0'} textColor={'#9a73ef'} />
+      </View>
     </View>
   );
 }
@@ -19,17 +24,31 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#483EE8',
     alignItems: 'center',
-    justifyContent: 'center',
+    justifyContent: 'flex-start',
+    width: '100%'
+  },
+
+  headerContainer:{
+     width:'100%',
+     flexDirection:'row'
+  },
+
+  backButton:{
+     marginLeft:20
   },
 
   headerText: {
     color: 'white',
-    fontSize: 28,
-    fontWeight: 'bold'
+    fontSize: 26,
+    fontWeight: 'bold',
+    marginTop: 35,
+    marginLeft:65
   },
 
-  button: {
-    backgroundColor: '#e9e9f0',
-  },
+  buttonsContainer: {
+    width: '100%',
+    marginTop: 20,
+    alignItems: 'center'
+  }
 
 });

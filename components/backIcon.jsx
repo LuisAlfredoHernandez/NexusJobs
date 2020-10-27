@@ -12,8 +12,9 @@ export default function RegularButtonComponent(props) {
         }
         return {
             marginTop: 35,
-            height: 35,
+            height: 30,
             width: 50,
+            marginLeft:10
         }
     }
 
