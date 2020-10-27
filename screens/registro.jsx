@@ -3,14 +3,14 @@ import React from 'react'
 import { StyleSheet, TextInput, View, Button, TouchableOpacity, Text } from 'react-native'
 import RegularButton from '../components/regularButton'
 import Footer from '../components/footer'
-import BackIcon from '../assets/Iconos atras.svg'
+import BackIcon from '../components/backIcon'
 
 export default function Registro() {
   return (
     <View style={styles.container}>
 
       <View style={styles.headerContainer}>
- 
+        <BackIcon color={'#e00b00'}/>
         <Text style={styles.headerText}>Registro</Text>
       </View>
 
@@ -20,7 +20,7 @@ export default function Registro() {
         <TextInput style={styles.input} placeholder=" Usuario" placeholderTextColor="#9a73ef">  </TextInput>
         <TextInput style={styles.input} placeholder=" Contraseña" placeholderTextColor="#9a73ef"> </TextInput>
         <TextInput style={styles.input} placeholder=" Sexo" placeholderTextColor="#9a73ef"> </TextInput>
-        <RegularButton style={{marginTop:15}} texto={'Aceptar'} color={'#131575'} textColor={'#ffffff'} />
+        <RegularButton style={ {marginTop:15} } texto={'Aceptar'} color={'#131575'} textColor={'#ffffff'} />
       </View>
 
       <View style={styles.footerContainer}>
@@ -41,14 +41,17 @@ const styles = StyleSheet.create({
 
   headerContainer:{
     flex:0.7,
-    flexDirection:'row'
+    flexDirection:'row',
+    alignItems:'flex-start',
+    width:'100%'
   },
 
   headerText: {
     color: 'white',
     fontSize: 28,
     fontWeight: 'bold',
-    marginTop:35
+    marginTop:35,
+    marginLeft:80
   },
 
   textFieldsContainer:{

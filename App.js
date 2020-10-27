@@ -9,7 +9,7 @@ import BackIcon from './components/backIcon'
 
 export default function App() {
   return (
-   <BackIcon />
+  <Registro/>
   );
 
 
