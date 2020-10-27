@@ -1,13 +1,13 @@
 import React from 'react'
 import { StyleSheet, View, ImageBackground } from 'react-native'
-import SplashScreenLogo from '../assets/IconoSplashScreen'
+import SplashScreenLogo from '../assets/Iconos nexusJob Blanco.svg'
 
 
 const splashScreen = () => {
     return (
         <View style={styles.container} >
             <ImageBackground source={require('../assets/background.jpg')} style={styles.background}>
-                {/* <SplashScreenLogo style={styles.image}/> */}
+                <SplashScreenLogo style={styles.iconImage}/>
             </ImageBackground>
         </View>
     )
@@ -29,9 +29,10 @@ const styles = StyleSheet.create({
         justifyContent:'center'
     },
 
-    image: {
-        height: '15%',
-        width: '15%',
+    iconImage: {
+        height: '40%',
+        width: '75%',
+        marginBottom:60
 
     },
 

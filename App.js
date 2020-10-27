@@ -10,7 +10,7 @@ import Seleccione from './screens/Seleccion'
 
 export default function App() {
   return (
-  <Registro/>
+  <SplashScreen/>
   );
 
 
