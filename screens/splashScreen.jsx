@@ -2,7 +2,6 @@ import React from 'react'
 import { StyleSheet, View, ImageBackground } from 'react-native'
 import SplashScreenLogo from '../assets/Iconos nexusJob Blanco.svg'
 
-
 const splashScreen = () => {
     return (
         <View style={styles.container} >
