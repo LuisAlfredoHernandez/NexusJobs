@@ -3,7 +3,7 @@ import React from 'react';
 import { TouchableOpacity, Text } from 'react-native';
 
 export default function RegularButtonComponent(props) {
-    const {color, texto, textColor } = props;
+    const {color, texto, textColor, onPressEvent } = props;
 
     const styling = () => {
         if (!color) {
@@ -21,7 +21,7 @@ export default function RegularButtonComponent(props) {
     }
 
     return (
-        <TouchableOpacity style={styling()} >
+        <TouchableOpacity onPress={ onPressEvent } style={styling()} >
             <Text style={ {color:textColor, fontSize:17, fontWeight:'bold'} } >{texto}</Text>
         </TouchableOpacity>
     );

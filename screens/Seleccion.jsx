@@ -3,12 +3,12 @@ import { StyleSheet, View, Text } from 'react-native'
 import RegularButton from '../components/regularButton'
 import BackButton from '../components/backIcon'
 
-export default function Seleccion() {
+export default function Seleccion( { navigation } ) {
 
   return (
     <View style={styles.container}>
       <View style={styles.headerContainer}>
-        <BackButton style={ styles.backButton } color={'#EDF1F7f0'} />
+        <BackButton onPressEvent={ ()=> navigation.goBack()} style={ styles.backButton } color={'#EDF1F7f0'} />
         <Text style={styles.headerText}>Seleccione</Text>
       </View>
       <View style={styles.buttonsContainer}>

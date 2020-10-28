@@ -1,11 +1,12 @@
 import { StatusBar } from 'expo-status-bar'
 import React from 'react'
-import { StyleSheet, Text, View, Image, TextInput } from 'react-native'
+import { StyleSheet, Text, View, Image, TextInput, Alert } from 'react-native'
 import RegularButton from '../components/regularButton'
 import LogoType from '../assets/Iconos nexusJob Color.svg'
 import Footer from '../components/footer'
 
-export default function Login() {
+export default function Login({ navigation }) {
+ 
     return (
         <View style={styles.container}>
             <View style={styles.logotypeContainer}>
@@ -26,7 +27,7 @@ export default function Login() {
 
                 <View style={styles.loginButtonsContainer}>
                     <RegularButton color={'#483EE8'} texto={'Iniciar sesión'} textColor={'#ffffff'}/>
-                    <RegularButton color={'#133463'} texto={'Registrarme'} textColor={'#ffffff'} />
+                    <RegularButton onPressEvent={ ()=> navigation.push('Register') } color={'#133463'} texto={'Registrarme'} textColor={'#ffffff'} />
                 </View>
             </View>
 

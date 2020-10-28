@@ -4,7 +4,7 @@ import { TouchableOpacity, View } from 'react-native'
 import BackIconImage from '../assets/Iconos atras.svg'
 
 export default function RegularButtonComponent(props) {
-    const { color } = props;
+    const { color, onPressEvent } = props;
 
     const styling = () => {
         if (!color) {
@@ -20,7 +20,7 @@ export default function RegularButtonComponent(props) {
 
     return (
     <View>
-        <TouchableOpacity style={styling()} >
+        <TouchableOpacity onPress={onPressEvent} style={styling()} >
             <BackIconImage style={{ color: color }} />
         </TouchableOpacity>
     </View>
