@@ -4,7 +4,7 @@ import RegularButton from '../components/regularButton'
 import BackButton from '../components/backIcon'
 
 export default function Seleccion( { navigation } ) {
-
+   const {registerUser} = props;
   return (
     <View style={styles.container}>
       <View style={styles.headerContainer}>
@@ -12,7 +12,7 @@ export default function Seleccion( { navigation } ) {
         <Text style={styles.headerText}>Seleccione</Text>
       </View>
       <View style={styles.buttonsContainer}>
-        <RegularButton texto={'Masculino'} color={'#EDF1F7f0'} textColor={'#9a73ef'} />
+        <RegularButton onPressEvent={ registerUser } texto={'Masculino'} color={'#EDF1F7f0'} textColor={'#9a73ef'} />
         <RegularButton texto={'Femenino'} color={'#EDF1F7f0'} textColor={'#9a73ef'} />
       </View>
     </View>

@@ -13,8 +13,8 @@ export default function Registro({ navigation }) {
   const [textInputPassword, setTextInputPassword] = useState('')
   const [textInputGender, setTextInputGender] = useState('')
 
-  const inputsChecker = () => {
-    if (!textInputName.trim() || !textInputEmail.trim() || !textInputUsername.trim() || !textInputPassword.trim() || !textInputGender.trim()) {
+  const emptyInputChecker = () => {
+    if (!textInputName.trim() || !textInputUsername.trim() || !textInputPassword.trim()) {
       Alert.alert(
         'Hay campos vacios!',
         'Todos los campos deben llenarse.',
@@ -24,9 +24,65 @@ export default function Registro({ navigation }) {
         { cancelable: false }
       );
     } else {
-      navigation.navigate('Selection')
+      specialCharacktersChecker();
     }
   }
+
+  const specialCharacktersChecker = () => {
+    if (/[^a-zA-Z0-9 ]/.test(textInputPassword) || /[^a-zA-Z0-9 ]/.test(textInputName)) {
+      Alert.alert(
+        'Se encontraron caractares no permitidos!',
+        'Evite introducir caracteres especiales.',
+        [
+          { text: 'OK', onPress: () => console.log('OK Pressed') }
+        ],
+        { cancelable: false }
+      );
+    } else {
+      createObjectData()
+    }
+  }
+
+  const createObjectData = () => {
+    values = {
+      username: textInputUsername,
+      password: textInputPassword,
+      fullName: textInputName,
+      email: textInputEmail,
+      gender: textInputGender
+    }
+    return usernameSubmit(values);
+  }
+
+  const usernameSubmit = (values) => {
+    fetch('http://newnexusvacantsapp-env.eba-ismjscyn.us-east-2.elasticbeanstalk.com/auth/signup', {
+      method: 'POST',
+      headers: {
+        'content-type': 'Application/json',
+      },
+      body: JSON.stringify(values),
+    })
+      .then(x => {
+        if (x.message) {
+          console.log(x)
+          return Alert.alert(
+            'Exito',
+            x,
+            [
+              { text: 'ir a Inicio', onPress: () => navigation.navigate('Login') }
+            ]
+          )
+          
+        } else {
+          Alert.alert(
+            'Error',
+            x,
+          )
+        }
+
+      })
+  }
+
 
   return (
     <View style={styles.container}>
@@ -44,7 +100,7 @@ export default function Registro({ navigation }) {
         <TextInput style={styles.input} onChangeText={(value) => setTextInputPassword(value)} placeholder=" Contraseña" placeholderTextColor="#9a73ef"> </TextInput>
         <TextInput style={styles.input} onChangeText={(value) => setTextInputGender(value)} placeholder=" Sexo" placeholderTextColor="#9a73ef"> </TextInput>
 
-        <RegularButton onPressEvent={inputsChecker} style={{ marginTop: 15 }} texto={'Aceptar'} color={'#131575'} textColor={'#ffffff'} />
+        <RegularButton onPressEvent={emptyInputChecker} style={{ marginTop: 15 }} texto={'Aceptar'} color={'#131575'} textColor={'#ffffff'} />
 
       </View>
 
