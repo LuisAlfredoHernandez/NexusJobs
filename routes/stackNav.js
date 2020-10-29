@@ -3,6 +3,7 @@ import { createStackNavigator } from 'react-navigation-stack'
 import LoginScreen from '../screens/Login'
 import RegisterScreen from '../screens/registro'
 import GenderSelection from '../screens/Seleccion'
+import JobsListScreen from '../screens/listaDeVacantes'
 
 const screens = {
 
@@ -16,6 +17,10 @@ const screens = {
 
     Selection:{
         screen: GenderSelection
+    },
+
+    JobsList:{
+        screen: JobsListScreen
     }
 
 }

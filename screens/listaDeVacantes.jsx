@@ -1,12 +1,16 @@
-import { StatusBar } from 'expo-status-bar'
 import React from 'react'
 import { StyleSheet, TextInput, View, Button, TouchableOpacity, Text } from 'react-native'
 import RegularButton from '../components/regularButton'
 import FooterWT from '../components/footerWithTabs'
-import BackIcon from '../components/backIcon'
 import TabsHeader from '../components/HeaderWithTabs'
 
-export default function Registro() {
+export default function ListaVacantes() {
+
+const getJobsList = () =>{
+    
+}
+
+
     return (
         <View style={styles.container}>
 

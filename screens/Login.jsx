@@ -1,6 +1,6 @@
-import { StatusBar } from 'expo-status-bar'
-import React,{useState} from 'react'
-import { StyleSheet, Text, View, Image, TextInput, Alert } from 'react-native'
+import React, { useState } from 'react'
+import { StyleSheet, Text, View, TextInput, Alert } from 'react-native'
+import AsyncStorage from  '@react-native-community/async-storage'
 import RegularButton from '../components/regularButton'
 import LogoType from '../assets/Iconos nexusJob Color.svg'
 import Footer from '../components/footer'
@@ -10,42 +10,69 @@ export default function Login({ navigation }) {
     const [usernameInput, setUsernameInput] = useState('')
     const [passwordInput, setPasswordInput] = useState('')
 
-
     const checkForEmptyInputs = () => {
-      if(!usernameInput.trim() || !passwordInput.trim()){
-        Alert.alert(
-            'Hay campos vacios!',
-            'Todos los campos deben llenarse.',
-            [
-              { text: 'OK', onPress: () => console.log('OK Pressed') }
-            ],
-            { cancelable: false }
-          );
-      } else{
-           checkForSpecialCharacters()
-      } 
+        if (!usernameInput.trim() || !passwordInput.trim()) {
+            Alert.alert(
+                'Hay campos vacios!',
+                'Todos los campos deben llenarse.',
+                [
+                    { text: 'OK', onPress: () => console.log('OK Pressed') }
+                ],
+                { cancelable: false }
+            );
+        } else {
+            checkForSpecialCharacters()
+        }
     }
 
-   const checkForSpecialCharacters = () =>{
-     if(/[^a-zA-Z0-9 ]/.test(usernameInput) || /[^a-zA-Z0-9 ]/.test(passwordInput)){
-        Alert.alert(
-            'Se encontraron caractares no permitidos!',
-            'Evite introducir caracteres especiales.',
-            [
-              { text: 'OK', onPress: () => console.log('OK Pressed') }
-            ],
-            { cancelable: false }
-          );
-     }else{
-
-     }
-
-   }
-
-    const postLoginCredential = () => {
-
+    const checkForSpecialCharacters = () => {
+        if (/[^a-zA-Z0-9 ]/.test(usernameInput) || /[^a-zA-Z0-9 ]/.test(passwordInput)) {
+            Alert.alert(
+                'Se encontraron caractares no permitidos!',
+                'Evite introducir caracteres especiales.',
+                [
+                    { text: 'OK', onPress: () => console.log('OK Pressed') }
+                ],
+                { cancelable: false }
+            );
+        } else {
+            createObjectData()
+        }
 
     }
+
+    const createObjectData = () => {
+        values = {
+            username: usernameInput.trim(),
+            password: passwordInput.trim()
+        }
+        return postLoginCredentials(values)
+    }
+
+
+    const postLoginCredentials = (values) => {
+        fetch('http://newnexusvacantsapp-env.eba-ismjscyn.us-east-2.elasticbeanstalk.com/auth/signin', {
+            method: 'POST',
+            headers: {
+                'content-type': 'Application/json',
+            },
+            body: JSON.stringify(values),
+        })
+            .then(x => x.json())
+            .then(x => {
+                if (x.accessToken) {
+                    AsyncStorage.setItem('token', x.accessToken)
+                    navigation.navigate('jobList', x.accessToken)
+               }else {
+                  Alert.alert(
+                    'Error!',
+                    'Constraseña incorrecta.',
+                  )
+                }
+              })
+                
+    }
+
 
     return (
         <View style={styles.container}>
@@ -66,7 +93,7 @@ export default function Login({ navigation }) {
                 </View>
 
                 <View style={styles.loginButtonsContainer}>
-                    <RegularButton onPressEvent={ checkForEmptyInputs } color={'#483EE8'} texto={'Iniciar sesión'} textColor={'#ffffff'} />
+                    <RegularButton onPressEvent={checkForEmptyInputs} color={'#483EE8'} texto={'Iniciar sesión'} textColor={'#ffffff'} />
                     <RegularButton onPressEvent={() => navigation.push('Register')} color={'#133463'} texto={'Registrarme'} textColor={'#ffffff'} />
                 </View>
             </View>

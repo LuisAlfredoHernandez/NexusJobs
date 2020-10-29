@@ -62,24 +62,21 @@ export default function Registro({ navigation }) {
       },
       body: JSON.stringify(values),
     })
+      .then(x => x.json())
       .then(x => {
-        if (x.message) {
-          console.log(x)
+        let  message = x.message 
+        if (x.code) {
           return Alert.alert(
-            'Exito',
-            x,
-            [
-              { text: 'ir a Inicio', onPress: () => navigation.navigate('Login') }
-            ]
-          )
-          
-        } else {
+            'Usuario Creado!',
+            'Usuario creado exitosamente.',
+            [ { text: 'Volver a Inicio', onPress: () => navigation.navigate('Login') } ] )
+    
+       }else {
           Alert.alert(
-            'Error',
-            x,
+            'Hubo un error!',
+            message,
           )
         }
-
       })
   }
 
