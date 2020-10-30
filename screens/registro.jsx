@@ -29,7 +29,7 @@ export default function Registro({ navigation }) {
   }
 
   const specialCharacktersChecker = () => {
-    if (/[^a-zA-Z0-9 ]/.test(textInputPassword) || /[^a-zA-Z0-9 ]/.test(textInputName)) {
+    if (/[^a-zA-Z0-9 ]/.test(textInputPassword) || /[^a-zA-Z0-9 ]/.test(textInputUsername)) {
       Alert.alert(
         'Se encontraron caractares no permitidos!',
         'Evite introducir caracteres especiales.',

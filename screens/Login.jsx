@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { StyleSheet, Text, View, TextInput, Alert } from 'react-native'
-import AsyncStorage from  '@react-native-community/async-storage'
+//import AsyncStorage from  '@react-native-community/async-storage'
 import RegularButton from '../components/regularButton'
 import LogoType from '../assets/Iconos nexusJob Color.svg'
 import Footer from '../components/footer'
@@ -26,7 +26,7 @@ export default function Login({ navigation }) {
     }
 
     const checkForSpecialCharacters = () => {
-        if (/[^a-zA-Z0-9 ]/.test(usernameInput) || /[^a-zA-Z0-9 ]/.test(passwordInput)) {
+        if (/[^a-zA-Z0-9 ]/.test(usernameInput) ) {
             Alert.alert(
                 'Se encontraron caractares no permitidos!',
                 'Evite introducir caracteres especiales.',
@@ -61,16 +61,17 @@ export default function Login({ navigation }) {
             .then(x => x.json())
             .then(x => {
                 if (x.accessToken) {
-                    AsyncStorage.setItem('token', x.accessToken)
-                    navigation.navigate('jobList', x.accessToken)
+                   // AsyncStorage.setItem('token', x.accessToken)
+                    navigation.navigate('JobsList', { token:x.accessToken } )
                }else {
                   Alert.alert(
                     'Error!',
                     'Constraseña incorrecta.',
                   )
+                  console.log(x)
                 }
               })
-                
+                    
     }
 
 
@@ -83,9 +84,9 @@ export default function Login({ navigation }) {
             <View style={styles.loginBasicComponents}>
                 <View style={styles.credentialsContainer}>
                     <Text style={styles.loginContainerText}>Usuario</Text>
-                    <TextInput onChangeText={(value) => setUsernameInput(value)} placeholder='Carlos Martinez001' style={styles.creadentialsInput}> </TextInput>
+                    <TextInput autoCapitalize='none' onChangeText={(value) => setUsernameInput(value)} placeholder='Carlos Martinez001' style={styles.creadentialsInput}> </TextInput>
                     <Text style={styles.loginContainerText}>Contraseña</Text>
-                    <TextInput onChangeText={(value) => setPasswordInput(value)} placeholder='**********' style={styles.creadentialsInput}> </TextInput>
+                    <TextInput autoCapitalize='none' onChangeText={(value) => setPasswordInput(value)} placeholder='**********' style={styles.creadentialsInput}> </TextInput>
                 </View>
 
                 <View style={styles.forgotPasswordContainer}>
