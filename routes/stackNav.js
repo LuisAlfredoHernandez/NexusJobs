@@ -4,6 +4,7 @@ import LoginScreen from '../screens/Login'
 import RegisterScreen from '../screens/registro'
 import GenderSelection from '../screens/Seleccion'
 import JobsListScreen from '../screens/listaDeVacantes'
+import CarouselScreen from '../screens/carousel'
 
 const screens = {
 
@@ -21,7 +22,12 @@ const screens = {
 
     JobsList:{
         screen: JobsListScreen
+    },
+
+    Carousel:{
+        screen: CarouselScreen
     }
+
 
 }
 
