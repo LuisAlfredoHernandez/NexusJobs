@@ -13,19 +13,31 @@ const screens = {
     },
     
     Register:{
-         screen: RegisterScreen
+         screen: RegisterScreen,
+         navigationOptions: {
+            headerShown:false,
+          }
     },
 
     Selection:{
-        screen: GenderSelection
+        screen: GenderSelection,
+        navigationOptions: {
+            headerShown:false,
+          }
     },
 
     JobsList:{
-        screen: JobsListScreen
+        screen: JobsListScreen,
+        navigationOptions: {
+            headerShown:false,
+          }
     },
 
     Carousel:{
-        screen: CarouselScreen
+        screen: CarouselScreen,
+        navigationOptions: {
+            headerShown:false,
+          }
     }
 
 

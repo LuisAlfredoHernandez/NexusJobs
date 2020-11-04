@@ -125,9 +125,6 @@ const styles = StyleSheet.create({
 
     segmentMainContainer: {
         alignItems: 'center',
-
-
-
     },
 
     headerContainer: {
