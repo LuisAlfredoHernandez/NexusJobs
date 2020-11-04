@@ -67,7 +67,19 @@ export default function ListaVacantes({ navigation }) {
 
     }
 
-    // {item.rol =='developer'?<DevIcon style={styles.icon}/>:<DesignerIcon style={styles.icon}/>}
+    const filterDataForCarousel = (item) => {
+        let arrToSend = []
+        arrToSend.push(item)
+        for (let i = 0; i < serverResponse[0].length; i++) {
+            if (serverResponse[i].rol === item) {
+                arrToSend.push(i)
+            }
+        }
+        navigation.navigate('Carousel', { data: arrToSend })
+        console.log(arrToSend)
+    }
+
+
     return (
         <View style={styles.container}>
 
@@ -84,7 +96,7 @@ export default function ListaVacantes({ navigation }) {
                     keyExtractor={(item, index) => item + index}
                     renderItem={({ item }) =>
                         <View style={styles.segmentMainContainer}>
-                            <View style={styles.buttonContainer}>
+                            <TouchableOpacity style={styles.buttonContainer} onPress={() => filterDataForCarousel(item.rol)}>
                                 <View style={styles.jobIconContainer}>
                                     <DevIcon style={styles.jobIcon} />
                                 </View>
@@ -93,14 +105,14 @@ export default function ListaVacantes({ navigation }) {
                                     <Text style={styles.jobDescription}>{item.shortDescription}</Text>
                                 </View>
                                 <View>
-                                     <Text style={styles.divisionLine}> </Text>
+                                    <Text style={styles.divisionLine}> </Text>
                                 </View>
                                 <View style={styles.shareIconContainer}>
-                                    <TouchableOpacity onPress={()=> navigation.navigate('Carousel', {data:serverResponse})}>
+                                    <TouchableOpacity >
                                         <ShareIcon style={styles.shareIcon} />
                                     </TouchableOpacity>
                                 </View>
-                            </View>
+                            </TouchableOpacity>
                         </View>}
                     renderSectionHeader={({ section: { title } }) => (
                         <Text style={styles.contentHeader}>{title}</Text>
@@ -195,16 +207,16 @@ const styles = StyleSheet.create({
     shareIcon: {
 
     },
-    
-    divisionLine:{
-     
-       height:60,
-       width:1,
-       backgroundColor:"#b8b9cf",
-       marginLeft:5
+
+    divisionLine: {
+
+        height: 60,
+        width: 1,
+        backgroundColor: "#b8b9cf",
+        marginLeft: 5
     },
 
-   footerContainer: {
+    footerContainer: {
         backgroundColor: "red",
         flex: 0.7,
     }

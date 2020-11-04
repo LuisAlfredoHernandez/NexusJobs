@@ -15,7 +15,7 @@ export default function CarouselScreen({ navigation }) {
 
     useEffect(() => {
         setData(navigation.getParam('data'))
-     
+
     })
 
     const _renderItem = ({ item }) => {
@@ -62,7 +62,7 @@ export default function CarouselScreen({ navigation }) {
     return (
         <View style={styles.container} >
             <View style={styles.backButtonContainer}>
-                <TouchableOpacity onPress={()=> navigation.goBack()} style={styles.backButton}>
+                <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
                     <BackButton color={'#483EE8'} />
                     <Text style={{ color: '#A7A1F3', fontSize: 17, fontWeight: 'bold', marginLeft: -12 }}>BACK</Text>
                 </TouchableOpacity>
@@ -90,7 +90,7 @@ const styles = StyleSheet.create({
 
     carouselContainer: {
         height: '100%',
-        marginTop: 8
+        marginTop: 8,
     },
     itemContainer: {
         width: '100%',
@@ -98,7 +98,8 @@ const styles = StyleSheet.create({
         position: 'relative',
         backgroundColor: 'white',
         alignItems: 'center',
-        marginTop:10
+        marginTop: 10,
+        borderRadius:10
     },
     itemLabel: {
         color: 'black',
@@ -152,7 +153,7 @@ const styles = StyleSheet.create({
         flex: 3,
         justifyContent: 'center',
         alignItems: 'center',
-        width:'100%'
+        width: '100%'
     },
 
     descriptionContainer: {
@@ -164,7 +165,8 @@ const styles = StyleSheet.create({
         flex: 4.9,
         width: '90%',
         justifyContent: 'center',
-        marginBottom:5
+        marginTop: 5,
+        marginBottom: 15
     },
 
     descriptionText: {
@@ -194,34 +196,32 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         color: '#A7A1F3',
         alignItems: 'center',
-        marginTop:15
+        marginTop: 15
     },
 
     shareButtonContainer: {
         flex: 1,
-        width:'100%',
+        width: '100%',
         alignItems: 'center',
         justifyContent: 'center',
-        backgroundColor:'red',
-        
     },
 
     shareButton: {
-        flexDirection:'row',
+        flexDirection: 'row',
         backgroundColor: '#483EE8',
-        height:45,
+        height: 53,
         alignItems: 'center',
-        justifyContent: 'center'
+        justifyContent: 'center',
+        width: '100%'
     },
 
     shareButtomText: {
         color: 'white',
-        marginLeft:-90
-
+        marginLeft: 5
     },
 
     shareIcon: {
-marginLeft:-44
-
+        height: 23,
+        width: 22
     }
 });
