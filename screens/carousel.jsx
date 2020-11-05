@@ -26,7 +26,7 @@ export default function CarouselScreen({ navigation }) {
                     <View style={styles.JobIconContainer}>
                         <JobIcon style={styles.JobIcon} />
                     </View>
-                    <Text style={styles.itemLabel}>{item.data[0].rol}</Text>
+                    <Text style={styles.itemLabel}>{item.rol}</Text>
                     <View style={styles.divisionLineContainer} >
                         <Text style={styles.divisionLine}></Text>
                     </View>
@@ -35,7 +35,7 @@ export default function CarouselScreen({ navigation }) {
                 <View style={styles.jobDescriptionContainer}>
                     <View style={styles.descriptionContainer} >
                         <Text style={styles.textHeader}>Descripción de empleo</Text>
-                        <Text style={styles.descriptionText}>{item.data[0].longDescription} </Text>
+                        <Text style={styles.descriptionText}>{item.longDescription} </Text>
                     </View>
                 </View>
 
@@ -45,7 +45,7 @@ export default function CarouselScreen({ navigation }) {
                     </View>
                     <View style={styles.detailContainer} >
                         <Text style={styles.textHeader}>Destalles de empleo</Text>
-                        <FlatList data={item.data[0].details} keyExtractor={(item, index) => item + index} renderItem={({ item }) =>
+                        <FlatList data={item.details} keyExtractor={(item, index) => item + index} renderItem={({ item }) =>
                             <Text style={styles.flatListText} keyExtractor={item + 1}>{`\u2022 ${item.replace(/<li>|<ul>|&#47/g, '')}`}</Text>} />
                     </View>
                     <View style={styles.shareButtonContainer} >

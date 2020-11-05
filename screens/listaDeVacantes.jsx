@@ -22,6 +22,7 @@ export default function ListaVacantes({ navigation }) {
             })
     }
 
+
     const orderData = (response) => {
         if (0) {
             return ordereDataByDate(response)
@@ -34,6 +35,7 @@ export default function ListaVacantes({ navigation }) {
         }
     }
 
+
     const ordereDataByDate = (response) => {
         let res = response.sort(function (a, b) {
             return Date.parse(b.creationDate) < Date.parse(a.creationDate);
@@ -41,6 +43,7 @@ export default function ListaVacantes({ navigation }) {
 
         return setResponse(res.reverse())
     }
+
 
     const orderDatadByPosition = (response) => {
         const developerArr = [], managerArr = [], contableArr = [], directorArr = []
@@ -56,28 +59,33 @@ export default function ListaVacantes({ navigation }) {
             }
         })
         const mainObject = { developer: developerArr, manager: managerArr, contable: contableArr, director: directorArr }
-        return serializeOrderedByPosition(mainObject);
+        return serializeOrderedByPosition(mainObject)
     }
+
 
     const serializeOrderedByPosition = (mainObject) => {
         const developerObj = { title: 'Developer', data: mainObject.developer }, managerObj = { title: 'Manager', data: mainObject.manager }
             , contableObj = { title: 'Contable', data: mainObject.contable }, directorObj = { title: 'Director', data: mainObject.director }
         const resultArr = [developerObj, managerObj, contableObj, directorObj]
         setServerResponse(resultArr)
-
     }
+
 
     const filterDataForCarousel = (item) => {
-        let arrToSend = []
-        arrToSend.push(item)
-        for (let i = 0; i < serverResponse[0].length; i++) {
-            if (serverResponse[i].rol === item) {
-                arrToSend.push(i)
-            }
+        let arrToSend = "";
+
+        if (serverResponse[0].data[0].rol === item || item === "Developer") {
+            arrToSend = serverResponse[0].data
+        } else if (serverResponse[1].data[0].rol === item) {
+            arrToSend = serverResponse[1].data
+        } else if (serverResponse[2].data[0].rol === item) {
+            arrToSend = serverResponse[2].data
+        } else if (serverResponse[3].data[0].rol === item) {
+            arrToSend = serverResponse[3].data
         }
         navigation.navigate('Carousel', { data: arrToSend })
-        console.log(arrToSend)
     }
+
 
 
     return (
