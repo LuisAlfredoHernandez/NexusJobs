@@ -26,7 +26,7 @@ export default function CarouselScreen({ navigation }) {
                     <View style={styles.JobIconContainer}>
                         <JobIcon style={styles.JobIcon} />
                     </View>
-                    <Text style={styles.itemLabel}>{item.rol}</Text>
+                    <Text style={styles.itemLabel}>{item.name}</Text>
                     <View style={styles.divisionLineContainer} >
                         <Text style={styles.divisionLine}></Text>
                     </View>

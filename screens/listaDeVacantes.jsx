@@ -10,6 +10,8 @@ export default function ListaVacantes({ navigation }) {
 
     const [serverResponse, setServerResponse] = useState([])
 
+
+
     const getJobsList = () => {
         fetch('http://newnexusvacantsapp-env.eba-ismjscyn.us-east-2.elasticbeanstalk.com/jobs', {
             method: 'GET',
@@ -40,7 +42,6 @@ export default function ListaVacantes({ navigation }) {
         let res = response.sort(function (a, b) {
             return Date.parse(b.creationDate) < Date.parse(a.creationDate);
         });
-
         return setResponse(res.reverse())
     }
 
@@ -72,20 +73,28 @@ export default function ListaVacantes({ navigation }) {
 
 
     const filterDataForCarousel = (item) => {
-        let arrToSend = "";
-
-        if (serverResponse[0].data[0].rol === item || item === "Developer") {
+        let arrToSend = []
+        if (serverResponse[0].data[0].rol === item.rol || item.rol === "Developer" || item.rol=="developer") {
             arrToSend = serverResponse[0].data
-        } else if (serverResponse[1].data[0].rol === item) {
+        } else if (serverResponse[1].data[0].rol === item.rol) {
             arrToSend = serverResponse[1].data
-        } else if (serverResponse[2].data[0].rol === item) {
+        } else if (serverResponse[2].data[0].rol === item.rol) {
             arrToSend = serverResponse[2].data
-        } else if (serverResponse[3].data[0].rol === item) {
+        } else if (serverResponse[3].data[0].rol === item.rol) {
             arrToSend = serverResponse[3].data
         }
-        navigation.navigate('Carousel', { data: arrToSend })
+         ereaseItem(arrToSend, item)
+         arrToSend.unshift(item)
+         navigation.navigate('Carousel', { data: arrToSend })
     }
 
+
+    const ereaseItem = (arr, item) => {
+        for (let i = 0; i < arr.length; i++) {
+            if (arr[i].id === item.id)
+                arr.splice(i, 1)
+        }
+    }
 
 
     return (
@@ -104,7 +113,7 @@ export default function ListaVacantes({ navigation }) {
                     keyExtractor={(item, index) => item + index}
                     renderItem={({ item }) =>
                         <View style={styles.segmentMainContainer}>
-                            <TouchableOpacity style={styles.buttonContainer} onPress={() => filterDataForCarousel(item.rol)}>
+                            <TouchableOpacity style={styles.buttonContainer} onPress={() => filterDataForCarousel(item)}>
                                 <View style={styles.jobIconContainer}>
                                     <DevIcon style={styles.jobIcon} />
                                 </View>
