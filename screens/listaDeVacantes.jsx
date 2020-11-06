@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { StyleSheet, View, SectionList, Text, TouchableOpacity } from 'react-native'
 import FooterWT from '../components/footerWithTabs'
 import TabsHeader from '../components/HeaderWithTabs'
@@ -11,7 +11,6 @@ export default function ListaVacantes({ navigation }) {
     const [serverResponse, setServerResponse] = useState([])
 
 
-
     const getJobsList = () => {
         fetch('http://newnexusvacantsapp-env.eba-ismjscyn.us-east-2.elasticbeanstalk.com/jobs', {
             method: 'GET',
@@ -22,7 +21,8 @@ export default function ListaVacantes({ navigation }) {
             .then(x => {
                 orderData(x)
             })
-    }
+           console.log(1)
+        }
 
 
     const orderData = (response) => {
@@ -38,13 +38,41 @@ export default function ListaVacantes({ navigation }) {
     }
 
 
+    //order data by date flow
+
     const ordereDataByDate = (response) => {
         let res = response.sort(function (a, b) {
             return Date.parse(b.creationDate) < Date.parse(a.creationDate);
         });
-        return setResponse(res.reverse())
+        serializeOrderedArrByDate(res.reverse())
     }
 
+
+    const serializeOrderedArrByDate = (arr) => {
+        let resultArr =[]
+        for (let i = 0; i < arr.length; i++) {
+            let arrProperty = {}
+            arrProperty.title = arr[i].creationDate
+            arrProperty.data = arr[i]
+            resultArr.push(arrProperty)
+        }
+        setServerResponse(resultArr)
+    }
+
+    useEffect(() => {
+        console.log("hello", serverResponse);
+    }, [serverResponse])
+
+    const orderedByDateFilterDataForCarousel = (item) => {
+        AddItemSelectedAsFirstIndex(serverResponse, item)
+        navigation.navigate('Carousel', { data: serverResponse })
+        console.log(serverResponse);
+    }
+
+
+
+
+    //Ordering by position
 
     const orderDatadByPosition = (response) => {
         const developerArr = [], managerArr = [], contableArr = [], directorArr = []
@@ -60,7 +88,7 @@ export default function ListaVacantes({ navigation }) {
             }
         })
         const mainObject = { developer: developerArr, manager: managerArr, contable: contableArr, director: directorArr }
-        return serializeOrderedByPosition(mainObject)
+         return serializeOrderedByPosition(mainObject)
     }
 
 
@@ -69,12 +97,13 @@ export default function ListaVacantes({ navigation }) {
             , contableObj = { title: 'Contable', data: mainObject.contable }, directorObj = { title: 'Director', data: mainObject.director }
         const resultArr = [developerObj, managerObj, contableObj, directorObj]
         setServerResponse(resultArr)
+        console.log(resultArr);
     }
 
 
-    const filterDataForCarousel = (item) => {
+    const orderedByPositionFilteredForCarousel = (item) => {
         let arrToSend = []
-        if (serverResponse[0].data[0].rol === item.rol || item.rol === "Developer" || item.rol=="developer") {
+        if (serverResponse[0].data[0].rol === item.rol || item.rol === "Developer" || item.rol == "developer") {
             arrToSend = serverResponse[0].data
         } else if (serverResponse[1].data[0].rol === item.rol) {
             arrToSend = serverResponse[1].data
@@ -83,37 +112,39 @@ export default function ListaVacantes({ navigation }) {
         } else if (serverResponse[3].data[0].rol === item.rol) {
             arrToSend = serverResponse[3].data
         }
-         ereaseItem(arrToSend, item)
-         arrToSend.unshift(item)
-         navigation.navigate('Carousel', { data: arrToSend })
+        AddItemSelectedAsFirstIndex(arrToSend, item)
+        navigation.navigate('Carousel', { data: arrToSend })
     }
 
+    // End of position flow
 
-    const ereaseItem = (arr, item) => {
+
+
+    const AddItemSelectedAsFirstIndex = (arr, item) => {
         for (let i = 0; i < arr.length; i++) {
             if (arr[i].id === item.id)
                 arr.splice(i, 1)
         }
+        arr.unshift(item)
     }
 
 
     return (
         <View style={styles.container}>
-
-            {/* service caller */}
-            { serverResponse.length < 1 && getJobsList()}
-
+         
+          { serverResponse.length < 1 &&  getJobsList()}
+          
             <View style={styles.headerContainer}>
                 <TabsHeader />
             </View>
 
             <View style={styles.segmentation}>
                 <SectionList
-                    sections={serverResponse}
+                    sections={ serverResponse }
                     keyExtractor={(item, index) => item + index}
                     renderItem={({ item }) =>
                         <View style={styles.segmentMainContainer}>
-                            <TouchableOpacity style={styles.buttonContainer} onPress={() => filterDataForCarousel(item)}>
+                            <TouchableOpacity style={styles.buttonContainer} onPress={() => orderedByPositionFilteredForCarousel(item)}>
                                 <View style={styles.jobIconContainer}>
                                     <DevIcon style={styles.jobIcon} />
                                 </View>
