@@ -6,13 +6,15 @@ import DevIcon from '../assets/Iconos developer.svg'
 import DesignerIcon from '../assets/Iconos diseño.svg'
 import ShareIcon from '../assets/Iconos compartir.svg'
 
+
 export default function ListaVacantes({ navigation }) {
 
     const [serverResponse, setServerResponse] = useState([])
+    const [searchParameter, setSearchParameter] = useState('byDate')
 
 
-    const getJobsList = () => {
-        fetch('http://newnexusvacantsapp-env.eba-ismjscyn.us-east-2.elasticbeanstalk.com/jobs', {
+    const getJobsList = async () => {
+        await fetch('http://newnexusvacantsapp-env.eba-ismjscyn.us-east-2.elasticbeanstalk.com/jobs', {
             method: 'GET',
             headers: {
                 'Authorization': `Bearer ${navigation.getParam('token')}`,
@@ -20,19 +22,31 @@ export default function ListaVacantes({ navigation }) {
         }).then(x => x.json())
             .then(x => {
                 orderData(x)
+                console.log(1)
             })
-           console.log(1)
-        }
+    }
 
+    useEffect(() => {
+        getJobsList()
+    }, [])
+
+    // useEffect(() => {
+    //     setServerResponse(serverResponse)
+    // }, [serverResponse])
+
+    const updateSelectedStatus = (searchParameter) => {
+        setSearchParameter(searchParameter)
+        getJobsList()
+    }
 
     const orderData = (response) => {
-        if (0) {
-            return ordereDataByDate(response)
+        if (searchParameter === 'byDate') {
+            return orderDataByDate(response)
         }
-        else if (1) {
+        else if (searchParameter === 'byPosition') {
             return orderDatadByPosition(response)
         }
-        else if (0) {
+        else if (searchParameter === 'byAlphabet') {
             return orderDatadByAlfabeth(response)
         }
     }
@@ -40,7 +54,7 @@ export default function ListaVacantes({ navigation }) {
 
     //order data by date flow
 
-    const ordereDataByDate = (response) => {
+    const orderDataByDate = (response) => {
         let res = response.sort(function (a, b) {
             return Date.parse(b.creationDate) < Date.parse(a.creationDate);
         });
@@ -49,24 +63,20 @@ export default function ListaVacantes({ navigation }) {
 
 
     const serializeOrderedArrByDate = (arr) => {
-        let resultArr =[]
+        let resultArr = []
         for (let i = 0; i < arr.length; i++) {
             let arrProperty = {}
             arrProperty.title = arr[i].creationDate
             arrProperty.data = arr[i]
             resultArr.push(arrProperty)
         }
-        setServerResponse(resultArr)
+         setServerResponse(resultArr)
+       // console.log(serverResponse)
     }
-
-    useEffect(() => {
-        console.log("hello", serverResponse);
-    }, [serverResponse])
 
     const orderedByDateFilterDataForCarousel = (item) => {
         AddItemSelectedAsFirstIndex(serverResponse, item)
         navigation.navigate('Carousel', { data: serverResponse })
-        console.log(serverResponse);
     }
 
 
@@ -87,8 +97,9 @@ export default function ListaVacantes({ navigation }) {
                 directorArr.push(item)
             }
         })
+        console.log('position');
         const mainObject = { developer: developerArr, manager: managerArr, contable: contableArr, director: directorArr }
-         return serializeOrderedByPosition(mainObject)
+        return serializeOrderedByPosition(mainObject)
     }
 
 
@@ -97,7 +108,7 @@ export default function ListaVacantes({ navigation }) {
             , contableObj = { title: 'Contable', data: mainObject.contable }, directorObj = { title: 'Director', data: mainObject.director }
         const resultArr = [developerObj, managerObj, contableObj, directorObj]
         setServerResponse(resultArr)
-        console.log(resultArr);
+        // console.log(resultArr);
     }
 
 
@@ -120,6 +131,11 @@ export default function ListaVacantes({ navigation }) {
 
 
 
+    const orderDatadByAlfabeth = () => {
+        console.log('alafabeh')
+    }
+
+
     const AddItemSelectedAsFirstIndex = (arr, item) => {
         for (let i = 0; i < arr.length; i++) {
             if (arr[i].id === item.id)
@@ -128,23 +144,48 @@ export default function ListaVacantes({ navigation }) {
         arr.unshift(item)
     }
 
+    const selectFilterData = (item) => {
+        if (searchParameter === 'byPosition') {
+            return orderedByPositionFilteredForCarousel(item)
+        } else if (searchParameter === 'byDate') {
+            return orderedByDateFilterDataForCarousel(item)
+        }
+        else {
+            console.log('na de na')
+        }
+    }
+
 
     return (
         <View style={styles.container}>
-         
-          { serverResponse.length < 1 &&  getJobsList()}
-          
+
             <View style={styles.headerContainer}>
-                <TabsHeader />
+                <View style={styles.headerInputContainer}>
+                    <TabsHeader />
+                </View>
+
+                <View style={styles.headerButtonsContainer}>
+                    <TouchableOpacity onPress={() => { updateSelectedStatus('byAlphabet'); }} style={styles.headerButton} >
+                        <Text style={styles.buttonText}>A-Z</Text>
+                    </TouchableOpacity>
+
+                    <TouchableOpacity onPress={() => { updateSelectedStatus('byDate'); }} style={styles.headerButton} >
+                        <Text style={styles.buttonText}>Fecha</Text>
+                    </TouchableOpacity>
+
+                    <TouchableOpacity onPress={() => { updateSelectedStatus('byPosition'); }} style={styles.headerButton} >
+                        <Text style={styles.buttonText}>Posición</Text>
+                    </TouchableOpacity>
+                </View>
             </View>
 
             <View style={styles.segmentation}>
                 <SectionList
-                    sections={ serverResponse }
+                    sections={serverResponse}
                     keyExtractor={(item, index) => item + index}
                     renderItem={({ item }) =>
                         <View style={styles.segmentMainContainer}>
-                            <TouchableOpacity style={styles.buttonContainer} onPress={() => orderedByPositionFilteredForCarousel(item)}>
+                            <TouchableOpacity style={styles.buttonContainer} onPress={() => selectFilterData(item)}>
                                 <View style={styles.jobIconContainer}>
                                     <DevIcon style={styles.jobIcon} />
                                 </View>
@@ -230,7 +271,6 @@ const styles = StyleSheet.create({
     jobIcon: {
         height: 50,
         width: '100%',
-
     },
 
     jobName: {
@@ -252,12 +292,7 @@ const styles = StyleSheet.create({
         marginLeft: 7,
     },
 
-    shareIcon: {
-
-    },
-
     divisionLine: {
-
         height: 60,
         width: 1,
         backgroundColor: "#b8b9cf",
@@ -267,6 +302,35 @@ const styles = StyleSheet.create({
     footerContainer: {
         backgroundColor: "red",
         flex: 0.7,
-    }
+    },
 
+    headerInputContainer: {
+        flex: 4.2,
+        width: '100%',
+        backgroundColor: '#483EE8',
+        alignItems: 'center',
+    },
+
+    headerButton: {
+        borderWidth: 1,
+        borderColor: '#9a73ef',
+        height: 34,
+        width: '32.7%',
+        marginTop: 1,
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
+
+    headerButtonsContainer: {
+        flex: 1.8,
+        width: '100%',
+        flexDirection: 'row',
+        justifyContent: 'space-around',
+        backgroundColor: 'white'
+    },
+
+    buttonText: {
+        color: '#9a73ef'
+
+    }
 });

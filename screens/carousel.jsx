@@ -4,6 +4,7 @@ import Carousel from 'react-native-snap-carousel';
 import BackButton from '../assets/Iconos atras.svg'
 import JobIcon from '../assets/Iconos developer.svg'
 import ShareIcon from '../assets/Iconos compartir.svg'
+import HTML from 'react-native-render-html'
 
 const SLIDER_WIDTH = Dimensions.get('window').width;
 const ITEM_WIDTH = Math.round(SLIDER_WIDTH * 0.8);
