@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react'
-import { StyleSheet, View, SectionList, Text, TouchableOpacity } from 'react-native'
+import { StyleSheet, View, SectionList, Text, TouchableOpacity, Share } from 'react-native'
 import FooterWT from '../components/footerWithTabs'
 import TabsHeader from '../components/HeaderWithTabs'
 import DevIcon from '../assets/Iconos developer.svg'
 import DesignerIcon from '../assets/Iconos diseño.svg'
 import ShareIcon from '../assets/Iconos compartir.svg'
-
+import HTMLView from 'react-native-htmlview'
 
 export default function ListaVacantes({ navigation }) {
 
@@ -26,18 +26,17 @@ export default function ListaVacantes({ navigation }) {
             })
     }
 
+
     useEffect(() => {
         getJobsList()
     }, [])
 
-    // useEffect(() => {
-    //     setServerResponse(serverResponse)
-    // }, [serverResponse])
 
     const updateSelectedStatus = (searchParameter) => {
         setSearchParameter(searchParameter)
         getJobsList()
     }
+
 
     const orderData = (response) => {
         if (searchParameter === 'byDate') {
@@ -71,14 +70,13 @@ export default function ListaVacantes({ navigation }) {
             resultArr.push(arrProperty)
         }
          setServerResponse(resultArr)
-       // console.log(serverResponse)
+         console.log(resultArr)
     }
 
     const orderedByDateFilterDataForCarousel = (item) => {
         AddItemSelectedAsFirstIndex(serverResponse, item)
         navigation.navigate('Carousel', { data: serverResponse })
     }
-
 
 
 
@@ -108,7 +106,7 @@ export default function ListaVacantes({ navigation }) {
             , contableObj = { title: 'Contable', data: mainObject.contable }, directorObj = { title: 'Director', data: mainObject.director }
         const resultArr = [developerObj, managerObj, contableObj, directorObj]
         setServerResponse(resultArr)
-        // console.log(resultArr);
+         console.log(resultArr);
     }
 
 
@@ -155,6 +153,28 @@ export default function ListaVacantes({ navigation }) {
         }
     }
 
+    const onShare = async (item) => {
+        try {
+          const result = await Share.share({
+            message:
+              `Rol: ${item.rol}. 
+               Posición: ${item.name}. 
+               Descripcion: ${item.shortDescription}.
+               Detalles de la posición: ${<HTMLView value={item.longDescription}/>}.`
+          });
+          if (result.action === Share.sharedAction) {
+            if (result.activityType) {
+              // shared with activity type of result.activityType
+            } else {
+              // shared
+            }
+          } else if (result.action === Share.dismissedAction) {
+            // dismissed
+          }
+        } catch (error) {
+          alert(error.message);
+        }
+      } 
 
     return (
         <View style={styles.container}>
@@ -197,7 +217,7 @@ export default function ListaVacantes({ navigation }) {
                                     <Text style={styles.divisionLine}> </Text>
                                 </View>
                                 <View style={styles.shareIconContainer}>
-                                    <TouchableOpacity >
+                                    <TouchableOpacity onPress={()=> onShare(item)}>
                                         <ShareIcon style={styles.shareIcon} />
                                     </TouchableOpacity>
                                 </View>

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Text, View, Dimensions, StyleSheet, FlatList, TouchableOpacity } from 'react-native';
+import { Text, View, Dimensions, StyleSheet, FlatList, TouchableOpacity, Share } from 'react-native';
 import Carousel from 'react-native-snap-carousel';
 import BackButton from '../assets/Iconos atras.svg'
 import JobIcon from '../assets/Iconos developer.svg'
@@ -18,6 +18,30 @@ export default function CarouselScreen({ navigation }) {
         setData(navigation.getParam('data'))
 
     })
+
+    const onShare = async (item) => {
+        try {
+          const result = await Share.share({
+            message:
+              `Rol: ${item.rol}. 
+               Posición: ${item.name}. 
+               Descripcion: ${item.shortDescription}.
+               Detalles de la posición: ${<HTMLView value={item.longDescription}/>}.`
+          });
+          if (result.action === Share.sharedAction) {
+            if (result.activityType) {
+              // shared with activity type of result.activityType
+            } else {
+              // shared
+            }
+          } else if (result.action === Share.dismissedAction) {
+            // dismissed
+          }
+        } catch (error) {
+          alert(error.message);
+        }
+      }  
+
 
     const _renderItem = ({ item }) => {
         return (
@@ -47,10 +71,10 @@ export default function CarouselScreen({ navigation }) {
                     <View style={styles.detailContainer} >
                         <Text style={styles.textHeader}>Destalles de empleo</Text>
                         <FlatList data={item.details} keyExtractor={(item, index) => item + index} renderItem={({ item }) =>
-                            <Text style={styles.flatListText} keyExtractor={item + 1}> {item.length > 5 ? <HTMLView value={item}/> : '' }</Text>} />
+                            <Text keyExtractor={item + 1}> {item.length > 5 ? <HTMLView value={item.concat(' ')}/> : ''}</Text>} />
                     </View>
                     <View style={styles.shareButtonContainer} >
-                        <TouchableOpacity style={styles.shareButton}>
+                        <TouchableOpacity onPress={()=> onShare(item)} style={styles.shareButton}>
                             <ShareIcon style={styles.shareIcon} />
                             <Text style={styles.shareButtomText}>COMPARTIR</Text>
                         </TouchableOpacity>
@@ -178,10 +202,6 @@ const styles = StyleSheet.create({
         fontSize: 13,
         fontWeight: 'bold',
         marginBottom: 6
-    },
-
-    flatListText: {
-        fontSize: 10,
     },
 
     backButtonContainer: {
