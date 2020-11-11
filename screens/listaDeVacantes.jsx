@@ -5,12 +5,11 @@ import TabsHeader from '../components/HeaderWithTabs'
 import DevIcon from '../assets/Iconos developer.svg'
 import DesignerIcon from '../assets/Iconos diseño.svg'
 import ShareIcon from '../assets/Iconos compartir.svg'
-import HTMLView from 'react-native-htmlview'
 
 export default function ListaVacantes({ navigation }) {
 
     const [serverResponse, setServerResponse] = useState([])
-    const [searchParameter, setSearchParameter] = useState('byDate')
+    const [searchParameter, setSearchParameter] = useState('byPosition')
 
 
     const getJobsList = async () => {
@@ -64,9 +63,9 @@ export default function ListaVacantes({ navigation }) {
     const serializeOrderedArrByDate = (arr) => {
         let resultArr = []
         for (let i = 0; i < arr.length; i++) {
-            let arrProperty = {}
-            arrProperty.title = arr[i].creationDate
-            arrProperty.data = arr[i]
+            let arrProperty = {title:'', data:[]}
+            arrProperty.title = 'Dia: '.concat(((arr[i].creationDate).replace(/T/g, ', Hora: ')).slice(0, 23))
+            arrProperty.data.push(arr[i]) 
             resultArr.push(arrProperty)
         }
          setServerResponse(resultArr)
@@ -160,21 +159,13 @@ export default function ListaVacantes({ navigation }) {
               `Rol: ${item.rol}. 
                Posición: ${item.name}. 
                Descripcion: ${item.shortDescription}.
-               Detalles de la posición: ${<HTMLView value={item.longDescription}/>}.`
+               Responsabilidades: ${item.longDescription}.`
           });
-          if (result.action === Share.sharedAction) {
-            if (result.activityType) {
-              // shared with activity type of result.activityType
-            } else {
-              // shared
-            }
-          } else if (result.action === Share.dismissedAction) {
-            // dismissed
-          }
         } catch (error) {
           alert(error.message);
         }
       } 
+
 
     return (
         <View style={styles.container}>

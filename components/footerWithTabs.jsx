@@ -64,7 +64,7 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         height: 40,
         fontSize: 10,
-        width: 65
+        width: 68
     }
 
 })
