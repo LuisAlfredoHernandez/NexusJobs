@@ -4,7 +4,7 @@ import Carousel from 'react-native-snap-carousel';
 import BackButton from '../assets/Iconos atras.svg'
 import JobIcon from '../assets/Iconos developer.svg'
 import ShareIcon from '../assets/Iconos compartir.svg'
-import HTML from 'react-native-render-html'
+import HTMLView from 'react-native-htmlview'
 
 const SLIDER_WIDTH = Dimensions.get('window').width;
 const ITEM_WIDTH = Math.round(SLIDER_WIDTH * 0.8);
@@ -47,7 +47,7 @@ export default function CarouselScreen({ navigation }) {
                     <View style={styles.detailContainer} >
                         <Text style={styles.textHeader}>Destalles de empleo</Text>
                         <FlatList data={item.details} keyExtractor={(item, index) => item + index} renderItem={({ item }) =>
-                            <Text style={styles.flatListText} keyExtractor={item + 1}>{`\u2022 ${item.replace(/<li>|<ul>|&#47/g, '')}`}</Text>} />
+                            <Text style={styles.flatListText} keyExtractor={item + 1}> {item.length > 5 ? <HTMLView value={item}/> : '' }</Text>} />
                     </View>
                     <View style={styles.shareButtonContainer} >
                         <TouchableOpacity style={styles.shareButton}>
@@ -171,7 +171,7 @@ const styles = StyleSheet.create({
     },
 
     descriptionText: {
-        fontSize: 10,
+        fontSize: 13,
     },
 
     textHeader: {
@@ -181,7 +181,7 @@ const styles = StyleSheet.create({
     },
 
     flatListText: {
-        fontSize: 12
+        fontSize: 10,
     },
 
     backButtonContainer: {
