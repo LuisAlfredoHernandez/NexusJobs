@@ -9,7 +9,7 @@ import ShareIcon from '../assets/Iconos compartir.svg'
 export default function ListaVacantes({ navigation }) {
 
     const [serverResponse, setServerResponse] = useState([])
-    const [searchParameter, setSearchParameter] = useState('byPosition')
+    const [searchParameter, setSearchParameter] = useState('byAlphabet')
 
 
     const getJobsList = async () => {
@@ -27,12 +27,11 @@ export default function ListaVacantes({ navigation }) {
 
     useEffect(() => {
         getJobsList()
-    }, [])
+    }, [searchParameter])
 
 
     const updateSelectedStatus = (searchParameter) => {
         setSearchParameter(searchParameter)
-        getJobsList()
     }
 
 
