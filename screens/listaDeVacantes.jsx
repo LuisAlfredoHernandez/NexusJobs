@@ -4,7 +4,8 @@ import FooterWT from '../components/footerWithTabs'
 import TabsHeader from '../components/HeaderWithTabs'
 import DevIcon from '../assets/Iconos developer.svg'
 import ManagerIcon from '../assets/manging2.png'
-import AccountatIcon from '../assets/accountant.png'
+import AccountantIcon from '../assets/accountant.png'
+import DesignerIcon from '../assets/Iconos diseño.svg'
 import MarketingIcon from '../assets/marketing Director.png'
 import ShareIcon from '../assets/Iconos compartir.svg'
 
@@ -193,9 +194,9 @@ export default function ListaVacantes({ navigation }) {
         }
     }
 
-    const IconTypeConditional = (props) => {
-        let rol = props.rol.charAt(0).toUpperCase() + props.rol.slice(1)
-        switch (rol) {
+    const IconTypeConditional = (rol) => {
+        let jobRol = rol.charAt(0).toUpperCase() + rol.slice(1)
+        switch (jobRol) {
             case 'Developer':
                 return <DevIcon style={styles.jobIcon} />
             case 'Director':
@@ -241,7 +242,7 @@ export default function ListaVacantes({ navigation }) {
                         <View style={styles.segmentMainContainer}>
                             <TouchableOpacity style={styles.buttonContainer} onPress={() => selectFilterData(item)}>
                                 <View style={styles.jobIconContainer}>
-                                    <DevIcon style={styles.jobIcon} />
+                                    {item.rol.charAt(0).toUpperCase()+item.rol.slice(1) === 'Developer' ? <DevIcon style={styles.jobIcon} /> : <DesignerIcon style={styles.jobIcon}/> } 
                                 </View>
                                 <View style={styles.JobInfoContainer}>
                                     <Text style={styles.jobName}>{item.name}</Text>
