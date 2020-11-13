@@ -3,7 +3,9 @@ import { StyleSheet, View, SectionList, Text, TouchableOpacity, Share } from 're
 import FooterWT from '../components/footerWithTabs'
 import TabsHeader from '../components/HeaderWithTabs'
 import DevIcon from '../assets/Iconos developer.svg'
-import DesignerIcon from '../assets/Iconos diseño.svg'
+import ManagerIcon from '../assets/manging2.png'
+import AccountatIcon from '../assets/accountant.png'
+import MarketingIcon from '../assets/marketing Director.png'
 import ShareIcon from '../assets/Iconos compartir.svg'
 
 export default function ListaVacantes({ navigation }) {
@@ -170,9 +172,9 @@ export default function ListaVacantes({ navigation }) {
 
 
     const selectFilterData = (item) => {
-        if (searchParameter === 'byPosition') 
+        if (searchParameter === 'byPosition')
             return orderByPositionFilterForCarousel(item)
-         else 
+        else
             return orderByDateOrAlfabethFilterForCarousel(item)
     }
 
@@ -191,6 +193,19 @@ export default function ListaVacantes({ navigation }) {
         }
     }
 
+    const IconTypeConditional = (props) => {
+        let rol = props.rol.charAt(0).toUpperCase() + props.rol.slice(1)
+        switch (rol) {
+            case 'Developer':
+                return <DevIcon style={styles.jobIcon} />
+            case 'Director':
+                return <MarketingIcon style={styles.jobIcon} />
+            case 'Manager':
+                return <ManagerIcon style={styles.jobIcon} />
+            case 'Contable':
+                return <AccountatIcon style={styles.jobIcon} />
+        }
+    }
 
     return (
         <View style={styles.container}>
