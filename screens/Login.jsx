@@ -86,7 +86,7 @@ export default function Login({ navigation }) {
                     <Text style={styles.loginContainerText}>Usuario</Text>
                     <TextInput autoCapitalize='none' onChangeText={(value) => setUsernameInput(value)} placeholder='Carlos Martinez001' style={styles.creadentialsInput}> </TextInput>
                     <Text style={styles.loginContainerText}>Contraseña</Text>
-                    <TextInput autoCapitalize='none' onChangeText={(value) => setPasswordInput(value)} placeholder='**********' style={styles.creadentialsInput}> </TextInput>
+                    <TextInput secureTextEntry={true} autoCapitalize='none' onChangeText={(value) => setPasswordInput(value)} placeholder='**********' style={styles.creadentialsInput}> </TextInput>
                 </View>
 
                 <View style={styles.forgotPasswordContainer}>
