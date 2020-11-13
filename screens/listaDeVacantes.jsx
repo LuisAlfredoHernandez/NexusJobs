@@ -57,7 +57,6 @@ export default function ListaVacantes({ navigation }) {
         serializeOrderedArrByDate(res.reverse())
     }
 
-
     const serializeOrderedArrByDate = (arr) => {
         let resultArr = []
         for (let i = 0; i < arr.length; i++) {
@@ -69,20 +68,24 @@ export default function ListaVacantes({ navigation }) {
         setServerResponse(resultArr)
     }
 
+    const orderByDateOrAlfabethFilterForCarousel = (item) => {
+        let arrToSend = []
+        let res = serverResponse.map((item) => {
+            arrToSend.push(item.data[0])
+        })
 
-    const orderedByDateFilterDataForCarousel = (item) => {
-        AddItemSelectedAsFirstIndex(serverResponse, item)
-        navigation.navigate('Carousel', { data: serverResponse })
+        AddItemSelectedAsFirstIndex(arrToSend, item)
+        navigation.navigate('Carousel', { data: arrToSend })
     }
 
 
 
-    //Ordering by position
+    //Ordering by position flow
 
     const orderDatadByPosition = (response) => {
         const developerArr = [], managerArr = [], contableArr = [], directorArr = []
         let resFixed = response.map((item) => {
-            if (item.rol.charAt(0).toUpperCase()+item.rol.slice(1) === 'Developer') {
+            if (item.rol.charAt(0).toUpperCase() + item.rol.slice(1) === 'Developer') {
                 developerArr.push(item)
             } else if (item.rol === 'Manager') {
                 managerArr.push(item)
@@ -96,7 +99,6 @@ export default function ListaVacantes({ navigation }) {
         return serializeOrderedByPosition(mainObject)
     }
 
-
     const serializeOrderedByPosition = (mainObject) => {
         const developerObj = { title: 'Developer', data: mainObject.developer }, managerObj = { title: 'Manager', data: mainObject.manager }
             , contableObj = { title: 'Contable', data: mainObject.contable }, directorObj = { title: 'Director', data: mainObject.director }
@@ -104,10 +106,9 @@ export default function ListaVacantes({ navigation }) {
         setServerResponse(resultArr)
     }
 
-
-    const orderedByPositionFilteredForCarousel = (item) => {
+    const orderByPositionFilterForCarousel = (item) => {
         let arrToSend = []
-        if (serverResponse[0].data[0].rol.charAt(0).toUpperCase()+item.rol.slice(1) === item.rol.charAt(0).toUpperCase()+item.rol.slice(1)) {
+        if (serverResponse[0].data[0].rol.charAt(0).toUpperCase() + item.rol.slice(1) === item.rol.charAt(0).toUpperCase() + item.rol.slice(1)) {
             arrToSend = serverResponse[0].data
         } else if (serverResponse[1].data[0].rol === item.rol) {
             arrToSend = serverResponse[1].data
@@ -122,7 +123,7 @@ export default function ListaVacantes({ navigation }) {
 
 
 
-    // Ordering by Alfabeth
+    // Order Data by Alfabeth flow
 
     const orderDatadByAlfabeth = (response) => {
         let resultArr = []
@@ -142,7 +143,6 @@ export default function ListaVacantes({ navigation }) {
         serializeOrderByAlfabeth(resultArr)
     }
 
-
     const checkAndOrdertAlphabetWord = (word, resultArr, response) => {
         let objectContainer = { data: [], title: '' }
         objectContainer.data.push(response)
@@ -150,15 +150,14 @@ export default function ListaVacantes({ navigation }) {
         resultArr.push(objectContainer)
     }
 
-    const serializeOrderByAlfabeth =(resultArr) =>{
+    const serializeOrderByAlfabeth = (resultArr) => {
         let res = resultArr.sort(function (a, b) {
             return b.title < (a.title);
         });
         setServerResponse(resultArr)
     }
 
-     //End of ordering by Alphabet flow.
-
+    //End of ordering by Alphabet flow.
 
 
     const AddItemSelectedAsFirstIndex = (arr, item) => {
@@ -171,14 +170,10 @@ export default function ListaVacantes({ navigation }) {
 
 
     const selectFilterData = (item) => {
-        if (searchParameter === 'byPosition') {
-            return orderedByPositionFilteredForCarousel(item)
-        } else if (searchParameter === 'byDate') {
-            return orderedByDateFilterDataForCarousel(item)
-        }
-        else {
-            console.log('na de na')
-        }
+        if (searchParameter === 'byPosition') 
+            return orderByPositionFilterForCarousel(item)
+         else 
+            return orderByDateOrAlfabethFilterForCarousel(item)
     }
 
 
@@ -186,7 +181,7 @@ export default function ListaVacantes({ navigation }) {
         try {
             const result = await Share.share({
                 message:
-              `Rol: ${item.rol}. 
+                    `Rol: ${item.rol}. 
                Posición: ${item.name}. 
                Descripcion: ${item.shortDescription}.
                Responsabilidades: ${item.longDescription}.`
@@ -206,19 +201,19 @@ export default function ListaVacantes({ navigation }) {
                 </View>
 
                 <View style={styles.headerButtonsContainer}>
-                    <TouchableOpacity onPress={() => { updateSelectedStatus('byAlphabet'); }} 
-                    style={ [styles.headerButton, { backgroundColor: searchParameter == 'byAlphabet' ? '#A7A1F3':'white'}] } >
-                        <Text style={[styles.buttonText,{color: searchParameter == 'byAlphabet' ? 'white' : '#A7A1F3'}]}>A-Z</Text>
+                    <TouchableOpacity onPress={() => { updateSelectedStatus('byAlphabet'); }}
+                        style={[styles.headerButton, { backgroundColor: searchParameter == 'byAlphabet' ? '#A7A1F3' : 'white' }]} >
+                        <Text style={[styles.buttonText, { color: searchParameter == 'byAlphabet' ? 'white' : '#A7A1F3' }]}>A-Z</Text>
                     </TouchableOpacity>
 
-                    <TouchableOpacity onPress={() => { updateSelectedStatus('byDate'); }} 
-                    style={ [styles.headerButton, { backgroundColor: searchParameter == 'byDate' ? '#A7A1F3':'white'}] } >
-                        <Text style={[styles.buttonText,{color: searchParameter == 'byDate' ? 'white' : '#A7A1F3'}]}>Fecha</Text>
+                    <TouchableOpacity onPress={() => { updateSelectedStatus('byDate'); }}
+                        style={[styles.headerButton, { backgroundColor: searchParameter == 'byDate' ? '#A7A1F3' : 'white' }]} >
+                        <Text style={[styles.buttonText, { color: searchParameter == 'byDate' ? 'white' : '#A7A1F3' }]}>Fecha</Text>
                     </TouchableOpacity>
 
-                    <TouchableOpacity onPress={() => { updateSelectedStatus('byPosition'); }} 
-                    style={ [styles.headerButton, { backgroundColor: searchParameter == 'byPosition' ? '#A7A1F3':'white'}]} >
-                        <Text style={[styles.buttonText,{color: searchParameter == 'byPosition' ? 'white' : '#A7A1F3'}]}>Posición</Text>
+                    <TouchableOpacity onPress={() => { updateSelectedStatus('byPosition'); }}
+                        style={[styles.headerButton, { backgroundColor: searchParameter == 'byPosition' ? '#A7A1F3' : 'white' }]} >
+                        <Text style={[styles.buttonText, { color: searchParameter == 'byPosition' ? 'white' : '#A7A1F3' }]}>Posición</Text>
                     </TouchableOpacity>
                 </View>
             </View>

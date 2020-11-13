@@ -16,8 +16,7 @@ export default function CarouselScreen({ navigation }) {
 
     useEffect(() => {
         setData(navigation.getParam('data'))
-
-    })
+    },[])
 
     const onShare = async (item) => {
         try {
@@ -87,7 +86,7 @@ export default function CarouselScreen({ navigation }) {
     return (
         <View style={styles.container} >
             <View style={styles.backButtonContainer}>
-                <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
+                <TouchableOpacity onPress={() => {navigation.goBack(), setData([])}} style={styles.backButton}>
                     <BackButton color={'#483EE8'} />
                     <Text style={{ color: '#A7A1F3', fontSize: 17, fontWeight: 'bold', marginLeft: -12 }}>BACK</Text>
                 </TouchableOpacity>
