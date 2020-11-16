@@ -1,14 +1,15 @@
 import React from 'react'
 import { StyleSheet, View, TextInput } from 'react-native'
-import IconosLista from '../assets/Iconos Lista.svg'
 
-export default function TabsFooter() {
 
+export default function TabsFooter(props) {
+ 
+    const {textInputFunction} = props
 
     return (
         <View style={styles.container}>
             <View style={styles.headerInputContainer}>
-                <TextInput  style={styles.headerInput} placeholder={'Buscar empleos'}/>
+                <TextInput autoCapitalize={"none"} onChangeText={text => textInputFunction(text)} style={styles.headerInput} placeholder={'Buscar empleos'}/>
             </View>
         </View>
     );

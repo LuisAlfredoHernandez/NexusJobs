@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
 import { StyleSheet, Text, View, TextInput, Alert } from 'react-native'
-//import AsyncStorage from  '@react-native-community/async-storage'
 import RegularButton from '../components/regularButton'
 import LogoType from '../assets/Iconos nexusJob Color.svg'
 import Footer from '../components/footer'
@@ -61,7 +60,6 @@ export default function Login({ navigation }) {
             .then(x => x.json())
             .then(x => {
                 if (x.accessToken) {
-                   // AsyncStorage.setItem('token', x.accessToken)
                     navigation.navigate('JobsList', { token:x.accessToken } )
                }else {
                   Alert.alert(

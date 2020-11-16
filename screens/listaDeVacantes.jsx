@@ -13,7 +13,7 @@ export default function ListaVacantes({ navigation }) {
 
     const [serverResponse, setServerResponse] = useState([])
     const [searchParameter, setSearchParameter] = useState('byAlphabet')
-
+    const [serverDataMutated, setDataMutated] = useState([])
 
     const getJobsList = async () => {
         await fetch('http://newnexusvacantsapp-env.eba-ismjscyn.us-east-2.elasticbeanstalk.com/jobs', {
@@ -194,6 +194,17 @@ export default function ListaVacantes({ navigation }) {
         }
     }
 
+    const searchFilterFunction = text => {
+       let resultArr = serverResponse; 
+      for(let i=0; i < resultArr.length; i++){
+          if(resultArr[i].data[0].name.toUpperCase().indexOf(text.toUpperCase()) > - 1)
+          setServerResponse (resultArr.splice(i,1))
+
+      }
+
+    }
+
+
     const IconTypeConditional = (rol) => {
         let jobRol = rol.charAt(0).toUpperCase() + rol.slice(1)
         switch (jobRol) {
@@ -213,7 +224,7 @@ export default function ListaVacantes({ navigation }) {
 
             <View style={styles.headerContainer}>
                 <View style={styles.headerInputContainer}>
-                    <TabsHeader />
+                    <TabsHeader textInputFunction={searchFilterFunction} serverResponse={serverResponse} />
                 </View>
 
                 <View style={styles.headerButtonsContainer}>
@@ -242,7 +253,7 @@ export default function ListaVacantes({ navigation }) {
                         <View style={styles.segmentMainContainer}>
                             <TouchableOpacity style={styles.buttonContainer} onPress={() => selectFilterData(item)}>
                                 <View style={styles.jobIconContainer}>
-                                    {item.rol.charAt(0).toUpperCase()+item.rol.slice(1) === 'Developer' ? <DevIcon style={styles.jobIcon} /> : <DesignerIcon style={styles.jobIcon}/> } 
+                                    {item.rol.charAt(0).toUpperCase() + item.rol.slice(1) === 'Developer' ? <DevIcon style={styles.jobIcon} /> : <DesignerIcon style={styles.jobIcon} />}
                                 </View>
                                 <View style={styles.JobInfoContainer}>
                                     <Text style={styles.jobName}>{item.name}</Text>
