@@ -34,6 +34,7 @@ export default function ListaVacantes({ navigation }) {
 
 
     const updateSelectedStatus = (searchParameter) => {
+        setDataMutated([])
         setSearchParameter(searchParameter)
     }
 
@@ -158,6 +159,7 @@ export default function ListaVacantes({ navigation }) {
             return b.title < (a.title);
         });
         setServerResponse(resultArr)
+        console.log(resultArr);
     }
 
     //End of ordering by Alphabet flow.
@@ -184,7 +186,7 @@ export default function ListaVacantes({ navigation }) {
         try {
             const result = await Share.share({
                 message:
-                    `Rol: ${item.rol}. 
+              `Rol: ${item.rol}. 
                Posición: ${item.name}. 
                Descripcion: ${item.shortDescription}.
                Responsabilidades: ${item.longDescription}.`
@@ -195,14 +197,15 @@ export default function ListaVacantes({ navigation }) {
     }
 
     const searchFilterFunction = text => {
-       let resultArr = serverResponse; 
-      for(let i=0; i < resultArr.length; i++){
-          if(resultArr[i].data[0].name.toUpperCase().indexOf(text.toUpperCase()) > - 1)
-          setServerResponse (resultArr.splice(i,1))
-
-      }
-
-    }
+        const newData = serverResponse.filter((item) => {      
+            const itemData = item.data[0].name.toUpperCase()        
+            const textData = text.toUpperCase();
+              
+             return itemData.indexOf(textData) > -1;    
+          });
+          setDataMutated(newData);  
+        }
+    
 
 
     const IconTypeConditional = (rol) => {
@@ -247,7 +250,7 @@ export default function ListaVacantes({ navigation }) {
 
             <View style={styles.segmentation}>
                 <SectionList
-                    sections={serverResponse}
+                    sections={serverDataMutated.length > 1 ? serverDataMutated : serverResponse}
                     keyExtractor={(item, index) => item + index}
                     renderItem={({ item }) =>
                         <View style={styles.segmentMainContainer}>
@@ -380,7 +383,7 @@ const styles = StyleSheet.create({
     headerButton: {
         borderWidth: 1,
         borderColor: '#9a73ef',
-        height: 34,
+        height: 45,
         width: '32.7%',
         marginTop: 1,
         justifyContent: 'center',
