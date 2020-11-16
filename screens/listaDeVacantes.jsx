@@ -3,10 +3,10 @@ import { StyleSheet, View, SectionList, Text, TouchableOpacity, Share } from 're
 import FooterWT from '../components/footerWithTabs'
 import TabsHeader from '../components/HeaderWithTabs'
 import DevIcon from '../assets/Iconos developer.svg'
-import ManagerIcon from '../assets/manging2.png'
-import AccountantIcon from '../assets/accountant.png'
+import ManagerIcon from '../assets/manager.svg'
+import AccountantIcon from '../assets/accounting.svg'
 import DesignerIcon from '../assets/Iconos diseño.svg'
-import MarketingIcon from '../assets/marketing Director.png'
+import MarketingIcon from '../assets/social-growth.svg'
 import ShareIcon from '../assets/Iconos compartir.svg'
 
 export default function ListaVacantes({ navigation }) {
@@ -159,7 +159,6 @@ export default function ListaVacantes({ navigation }) {
             return b.title < (a.title);
         });
         setServerResponse(resultArr)
-        console.log(resultArr);
     }
 
     //End of ordering by Alphabet flow.
@@ -210,6 +209,7 @@ export default function ListaVacantes({ navigation }) {
 
     const IconTypeConditional = (rol) => {
         let jobRol = rol.charAt(0).toUpperCase() + rol.slice(1)
+
         switch (jobRol) {
             case 'Developer':
                 return <DevIcon style={styles.jobIcon} />
@@ -218,7 +218,7 @@ export default function ListaVacantes({ navigation }) {
             case 'Manager':
                 return <ManagerIcon style={styles.jobIcon} />
             case 'Contable':
-                return <AccountatIcon style={styles.jobIcon} />
+                return <AccountantIcon style={styles.jobIcon} />
         }
     }
 
@@ -256,7 +256,7 @@ export default function ListaVacantes({ navigation }) {
                         <View style={styles.segmentMainContainer}>
                             <TouchableOpacity style={styles.buttonContainer} onPress={() => selectFilterData(item)}>
                                 <View style={styles.jobIconContainer}>
-                                    {item.rol.charAt(0).toUpperCase() + item.rol.slice(1) === 'Developer' ? <DevIcon style={styles.jobIcon} /> : <DesignerIcon style={styles.jobIcon} />}
+                                    {item.rol.charAt(0).toUpperCase() + item.rol.slice(1) === 'Developer' ? <DevIcon style={styles.jobIcon} /> : <DesignerIcon style={styles.jobIcon} />} 
                                 </View>
                                 <View style={styles.JobInfoContainer}>
                                     <Text style={styles.jobName}>{item.name}</Text>
