@@ -15,6 +15,7 @@ export default function ListaVacantes({ navigation }) {
     const [searchParameter, setSearchParameter] = useState('byAlphabet')
     const [serverDataMutated, setDataMutated] = useState([])
 
+
     const getJobsList = async () => {
         await fetch('http://newnexusvacantsapp-env.eba-ismjscyn.us-east-2.elasticbeanstalk.com/jobs', {
             method: 'GET',
@@ -185,7 +186,7 @@ export default function ListaVacantes({ navigation }) {
         try {
             const result = await Share.share({
                 message:
-              `Rol: ${item.rol}. 
+                    `Rol: ${item.rol}. 
                Posición: ${item.name}. 
                Descripcion: ${item.shortDescription}.
                Responsabilidades: ${item.longDescription}.`
@@ -196,15 +197,15 @@ export default function ListaVacantes({ navigation }) {
     }
 
     const searchFilterFunction = text => {
-        const newData = serverResponse.filter((item) => {      
-            const itemData = item.data[0].name.toUpperCase()        
+        const newData = serverResponse.filter((item) => {
+            const itemData = item.data[0].name.toUpperCase()
             const textData = text.toUpperCase();
-              
-             return itemData.indexOf(textData) > -1;    
-          });
-          setDataMutated(newData);  
-        }
-    
+
+            return itemData.indexOf(textData) > -1;
+        });
+        setDataMutated(newData);
+    }
+
 
 
     const IconTypeConditional = (rol) => {
@@ -231,17 +232,20 @@ export default function ListaVacantes({ navigation }) {
                 </View>
 
                 <View style={styles.headerButtonsContainer}>
-                    <TouchableOpacity onPress={() => { updateSelectedStatus('byAlphabet'); }}
+                    <TouchableOpacity
+                        onPress={() => { updateSelectedStatus('byAlphabet'); }}
                         style={[styles.headerButton, { backgroundColor: searchParameter == 'byAlphabet' ? '#A7A1F3' : 'white' }]} >
                         <Text style={[styles.buttonText, { color: searchParameter == 'byAlphabet' ? 'white' : '#A7A1F3' }]}>A-Z</Text>
                     </TouchableOpacity>
 
-                    <TouchableOpacity onPress={() => { updateSelectedStatus('byDate'); }}
+                    <TouchableOpacity
+                        onPress={() => { updateSelectedStatus('byDate'); }}
                         style={[styles.headerButton, { backgroundColor: searchParameter == 'byDate' ? '#A7A1F3' : 'white' }]} >
                         <Text style={[styles.buttonText, { color: searchParameter == 'byDate' ? 'white' : '#A7A1F3' }]}>Fecha</Text>
                     </TouchableOpacity>
 
-                    <TouchableOpacity onPress={() => { updateSelectedStatus('byPosition'); }}
+                    <TouchableOpacity
+                        onPress={() => { updateSelectedStatus('byPosition'); }}
                         style={[styles.headerButton, { backgroundColor: searchParameter == 'byPosition' ? '#A7A1F3' : 'white' }]} >
                         <Text style={[styles.buttonText, { color: searchParameter == 'byPosition' ? 'white' : '#A7A1F3' }]}>Posición</Text>
                     </TouchableOpacity>
@@ -254,19 +258,24 @@ export default function ListaVacantes({ navigation }) {
                     keyExtractor={(item, index) => item + index}
                     renderItem={({ item }) =>
                         <View style={styles.segmentMainContainer}>
-                            <TouchableOpacity style={styles.buttonContainer} onPress={() => selectFilterData(item)}>
+                            <TouchableOpacity
+                                style={styles.buttonContainer} onPress={() => selectFilterData(item)}>
                                 <View style={styles.jobIconContainer}>
-                                    {item.rol.charAt(0).toUpperCase() + item.rol.slice(1) === 'Developer' ? <DevIcon style={styles.jobIcon} /> : <DesignerIcon style={styles.jobIcon} />} 
+                                    {item.rol.charAt(0).toUpperCase() + item.rol.slice(1) === 'Developer' ? <DevIcon style={styles.jobIcon} /> : <DesignerIcon style={styles.jobIcon} />}
                                 </View>
+
                                 <View style={styles.JobInfoContainer}>
                                     <Text style={styles.jobName}>{item.name}</Text>
                                     <Text style={styles.jobDescription}>{item.shortDescription}</Text>
                                 </View>
+
                                 <View>
                                     <Text style={styles.divisionLine}> </Text>
                                 </View>
+
                                 <View style={styles.shareIconContainer}>
-                                    <TouchableOpacity onPress={() => onShare(item)}>
+                                    <TouchableOpacity
+                                        onPress={() => onShare(item)}>
                                         <ShareIcon style={styles.shareIcon} />
                                     </TouchableOpacity>
                                 </View>
@@ -280,7 +289,6 @@ export default function ListaVacantes({ navigation }) {
             <View style={styles.footerContainer}>
                 <FooterWT />
             </View>
-
         </View>
     );
 }

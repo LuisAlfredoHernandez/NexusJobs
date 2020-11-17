@@ -7,11 +7,11 @@ import BackIcon from '../components/backIcon'
 
 export default function Registro({ navigation }) {
 
-  const [textInputName, setTextInputName] = useState(null)
-  const [textInputEmail, setTextInputEmail] = useState(null)
-  const [textInputUsername, setTextInputUsername] = useState(null)
-  const [textInputPassword, setTextInputPassword] = useState(null)
-  const [textInputGender, setTextInputGender] = useState(null)
+  const [textInputName, setTextInputName] = useState('')
+  const [textInputEmail, setTextInputEmail] = useState('')
+  const [textInputUsername, setTextInputUsername] = useState('')
+  const [textInputPassword, setTextInputPassword] = useState('')
+  const [textInputGender, setTextInputGender] = useState('')
 
 
   const emptyInputChecker = () => {
@@ -63,7 +63,7 @@ export default function Registro({ navigation }) {
       return Alert.alert(
         'Usuario Creado!',
         'Usuario creado exitosamente.',
-        [{ text: 'Volver a Inicio', onPress: () => navigation.navigate('Login') }])
+        [{ text: 'Volver a Inicio', onPress:() => navigation.navigate('Login') }])
 
     } else {
       Alert.alert(
@@ -76,7 +76,6 @@ export default function Registro({ navigation }) {
 
   return (
     <View style={styles.container}>
-
       <View style={styles.headerContainer}>
         <BackIcon onPressEvent={() => navigation.goBack()} color={'#e00b00'} />
 
@@ -84,20 +83,39 @@ export default function Registro({ navigation }) {
       </View>
 
       <View style={styles.textFieldsContainer}>
-        <TextInput style={styles.input} onChangeText={(value) => setTextInputName(value)} placeholder={" Nombre y apellido"} placeholderTextColor="#9a73ef"> </TextInput>
-        <TextInput style={styles.input} onChangeText={(value) => setTextInputEmail(value)} placeholder={" Correo electronico"} placeholderTextColor="#9a73ef"> </TextInput>
-        <TextInput style={styles.input} onChangeText={(value) => setTextInputUsername(value)} placeholder={" Usuario"} placeholderTextColor="#9a73ef"> </TextInput>
-        <TextInput secureTextEntry={true} style={styles.input} onChangeText={(value) => setTextInputPassword(value)} placeholder={" Contraseña"} placeholderTextColor="#9a73ef"> </TextInput>
-        <TextInput style={styles.input} onChangeText={(value) => setTextInputGender(value)} placeholder={" Sexo"} placeholderTextColor="#9a73ef"> </TextInput>
+        <TextInput style={styles.input}
+          placeholder=' Nombre y apellido'
+          placeholderTextColor='#9a73ef'
+          onChangeText={value => setTextInputName(value)}>
+        </TextInput>
+        <TextInput style={styles.input}
+          placeholder=' Correo electronico'
+          placeholderTextColor='#9a73ef'
+          onChangeText={value => setTextInputEmail(value)}>
+        </TextInput>
+        <TextInput style={styles.input}
+          placeholder=' Usuario'
+          placeholderTextColor='#9a73ef'
+          onChangeText={value => setTextInputUsername(value)}>
+        </TextInput>
+        <TextInput style={styles.input}
+          placeholder=' Contraseña'
+          placeholderTextColor='#9a73ef'
+          secureTextEntry={true}
+          onChangeText={value => setTextInputPassword(value)}>
+        </TextInput>
+        <TextInput style={styles.input}
+          placeholder=' Sexo'
+          placeholderTextColor='#9a73ef'
+          onChangeText={value => setTextInputGender(value)}>
+        </TextInput>
 
-        <RegularButton onPressEvent={emptyInputChecker} style={{ marginTop: 15 }} texto={'Aceptar'} color={'#131575'} textColor={'#ffffff'} />
-
+        <RegularButton onPressEvent={emptyInputChecker} style={{ marginTop: 15 }} texto='Aceptar' color='#131575' textColor='#ffffff' />
       </View>
 
       <View style={styles.footerContainer}>
-        <Footer iconsBackgroundColor={'#483EE8'} IconsTitleBackground={'#ffffff'} />
+        <Footer iconsBackgroundColor='#483EE8' IconsTitleBackground='#ffffff'/>
       </View>
-
     </View>
   );
 }

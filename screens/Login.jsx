@@ -26,7 +26,7 @@ export default function Login({ navigation }) {
 
 
     const createObjectData = () => {
-        values = {
+        const values = {
             username: usernameInput.trim(),
             password: passwordInput.trim()
         }
@@ -70,9 +70,21 @@ export default function Login({ navigation }) {
             <View style={styles.loginBasicComponents}>
                 <View style={styles.credentialsContainer}>
                     <Text style={styles.loginContainerText}>Usuario</Text>
-                    <TextInput autoCapitalize='none' onChangeText={(value) => setUsernameInput(value)} placeholder='Carlos Martinez001' style={styles.creadentialsInput}> </TextInput>
+                    <TextInput style={styles.creadentialsInput}
+                        placeholder='Carlos Martinez001'
+                        placeholderTextColor='#9a73ef'
+                        autoCapitalize='none'
+                        onChangeText={value => setUsernameInput(value)}>
+                    </TextInput>
+
                     <Text style={styles.loginContainerText}>Contraseña</Text>
-                    <TextInput secureTextEntry={true} autoCapitalize='none' onChangeText={(value) => setPasswordInput(value)} placeholder='**********' style={styles.creadentialsInput}> </TextInput>
+                    <TextInput style={styles.creadentialsInput}
+                        placeholder='**********'
+                        placeholderTextColor='#9a73ef'
+                        secureTextEntry={true}
+                        autoCapitalize='none'
+                        onChangeText={value => setPasswordInput(value)}>
+                    </TextInput>
                 </View>
 
                 <View style={styles.forgotPasswordContainer}>
@@ -80,15 +92,22 @@ export default function Login({ navigation }) {
                 </View>
 
                 <View style={styles.loginButtonsContainer}>
-                    <RegularButton onPressEvent={checkForEmptyInputs} color={'#483EE8'} texto={'Iniciar sesión'} textColor={'#ffffff'} />
-                    <RegularButton onPressEvent={() => navigation.push('Register')} color={'#133463'} texto={'Registrarme'} textColor={'#ffffff'} />
+                    <RegularButton
+                        onPressEvent={checkForEmptyInputs}
+                        color='#483EE8'
+                        texto='Iniciar sesión'
+                        textColor='#ffffff' />
+                    <RegularButton
+                        onPressEvent={() => navigation.push('Register')}
+                        color='#133463'
+                        texto='Registrarme'
+                        textColor='#ffffff' />
                 </View>
             </View>
 
             <View style={styles.footer}>
-                <Footer iconsBackgroundColor={'#EDF1F7'} IconsTitleBackground={'#133463'} />
+                <Footer iconsBackgroundColor='#EDF1F7' IconsTitleBackground='#133463' />
             </View>
-
         </View>
     );
 }
@@ -140,7 +159,7 @@ const styles = StyleSheet.create({
         borderBottomWidth: 1,
         borderBottomColor: '#A7A1F3',
         marginTop: 5,
-        width: '90%'
+        width: '90%',
     },
 
     forgotPasswordContainer: {

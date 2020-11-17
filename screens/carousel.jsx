@@ -16,41 +16,42 @@ export default function CarouselScreen({ navigation }) {
 
     useEffect(() => {
         setData(navigation.getParam('data'))
-    },[])
+    }, [])
 
     const onShare = async (item) => {
         try {
-          const result = await Share.share({
-            message:
-              `Rol: ${item.rol}. 
+            const result = await Share.share({
+                message:
+                    `Rol: ${item.rol}. 
                Posición: ${item.name}. 
                Descripcion: ${item.shortDescription}.
-               Detalles de la posición: ${<HTMLView value={item.longDescription}/>}.`
-          });
-          if (result.action === Share.sharedAction) {
-            if (result.activityType) {
-              // shared with activity type of result.activityType
-            } else {
-              // shared
+               Detalles de la posición: ${<HTMLView value={item.longDescription} />}.`
+            });
+            if (result.action === Share.sharedAction) {
+                if (result.activityType) {
+                    // shared with activity type of result.activityType
+                } else {
+                    // shared
+                }
+            } else if (result.action === Share.dismissedAction) {
+                // dismissed
             }
-          } else if (result.action === Share.dismissedAction) {
-            // dismissed
-          }
         } catch (error) {
-          alert(error.message);
+            alert(error.message);
         }
-      }  
+    }
 
 
     const _renderItem = ({ item }) => {
         return (
             <View style={styles.itemContainer}>
-
                 <View style={styles.contentHeader}>
                     <View style={styles.JobIconContainer}>
                         <JobIcon style={styles.JobIcon} />
                     </View>
+
                     <Text style={styles.itemLabel}>{item.name}</Text>
+
                     <View style={styles.divisionLineContainer} >
                         <Text style={styles.divisionLine}></Text>
                     </View>
@@ -67,13 +68,16 @@ export default function CarouselScreen({ navigation }) {
                     <View style={styles.divisionLineContainer} >
                         <Text style={styles.divisionLine}></Text>
                     </View>
+
                     <View style={styles.detailContainer} >
                         <Text style={styles.textHeader}>Destalles de empleo</Text>
                         <FlatList data={item.details} keyExtractor={(item, index) => item + index} renderItem={({ item }) =>
-                            <Text keyExtractor={item + 1}> {item.length > 5 ? <HTMLView value={item.concat(' ')}/> : ''}</Text>} />
+                            <Text keyExtractor={item + 1}> {item.length > 5 ? <HTMLView value={item.concat(' ')} /> : ''}</Text>} />
                     </View>
+
                     <View style={styles.shareButtonContainer} >
-                        <TouchableOpacity onPress={()=> onShare(item)} style={styles.shareButton}>
+                        <TouchableOpacity
+                            onPress={() => onShare(item)} style={styles.shareButton}>
                             <ShareIcon style={styles.shareIcon} />
                             <Text style={styles.shareButtomText}>COMPARTIR</Text>
                         </TouchableOpacity>
@@ -84,13 +88,16 @@ export default function CarouselScreen({ navigation }) {
     }
 
     return (
-        <View style={styles.container} >
+        <View style={styles.container}>
             <View style={styles.backButtonContainer}>
-                <TouchableOpacity onPress={() => {navigation.goBack(), setData([])}} style={styles.backButton}>
+                <TouchableOpacity
+                    onPress={() => { navigation.goBack(), setData([]) }}
+                    style={styles.backButton}>
                     <BackButton color={'#483EE8'} />
                     <Text style={{ color: '#A7A1F3', fontSize: 17, fontWeight: 'bold', marginLeft: -12 }}>BACK</Text>
                 </TouchableOpacity>
             </View>
+            
             <Carousel
                 data={data}
                 renderItem={_renderItem}
@@ -123,7 +130,7 @@ const styles = StyleSheet.create({
         backgroundColor: 'white',
         alignItems: 'center',
         marginTop: 10,
-        borderRadius:10
+        borderRadius: 10
     },
     itemLabel: {
         color: 'black',
