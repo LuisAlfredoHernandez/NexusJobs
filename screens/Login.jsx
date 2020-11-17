@@ -20,25 +20,11 @@ export default function Login({ navigation }) {
                 { cancelable: false }
             );
         } else {
-            checkForSpecialCharacters()
-        }
-    }
-
-    const checkForSpecialCharacters = () => {
-        if (/[^a-zA-Z0-9 ]/.test(usernameInput) ) {
-            Alert.alert(
-                'Se encontraron caractares no permitidos!',
-                'Evite introducir caracteres especiales.',
-                [
-                    { text: 'OK', onPress: () => console.log('OK Pressed') }
-                ],
-                { cancelable: false }
-            );
-        } else {
             createObjectData()
         }
-
     }
+
+  
 
     const createObjectData = () => {
         values = {

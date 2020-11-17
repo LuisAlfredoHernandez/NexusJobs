@@ -383,7 +383,7 @@ const styles = StyleSheet.create({
     headerButton: {
         borderWidth: 1,
         borderColor: '#9a73ef',
-        height: 45,
+        height: 34,
         width: '32.7%',
         marginTop: 1,
         justifyContent: 'center',
