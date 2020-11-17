@@ -24,7 +24,6 @@ export default function Login({ navigation }) {
         }
     }
 
-  
 
     const createObjectData = () => {
         values = {
@@ -45,19 +44,22 @@ export default function Login({ navigation }) {
         })
             .then(x => x.json())
             .then(x => {
-                if (x.accessToken) {
-                    navigation.navigate('JobsList', { token:x.accessToken } )
-               }else {
-                  Alert.alert(
-                    'Error!',
-                    'Constraseña incorrecta.',
-                  )
-                  console.log(x)
-                }
-              })
-                    
+                postLoginResponseChecker(x)
+            })
     }
 
+
+    const postLoginResponseChecker = (x) => {
+        if (x.accessToken) {
+            navigation.navigate('JobsList', { token: x.accessToken })
+        } else {
+            Alert.alert(
+                'Error!',
+                'Constraseña incorrecta.',
+            )
+            console.log(x)
+        }
+    }
 
     return (
         <View style={styles.container}>

@@ -11,7 +11,8 @@ export default function Registro({ navigation }) {
   const [textInputEmail, setTextInputEmail] = useState(null)
   const [textInputUsername, setTextInputUsername] = useState(null)
   const [textInputPassword, setTextInputPassword] = useState(null)
-  const [textInputGender, setTextInputGender] = useState('')
+  const [textInputGender, setTextInputGender] = useState(null)
+
 
   const emptyInputChecker = () => {
     if (!textInputName.trim() || !textInputUsername.trim() || !textInputPassword.trim()) {
@@ -28,6 +29,7 @@ export default function Registro({ navigation }) {
     }
   }
 
+
   const createObjectData = () => {
     values = {
       username: textInputUsername,
@@ -38,6 +40,7 @@ export default function Registro({ navigation }) {
     }
     return usernameSubmitToServer(values);
   }
+
 
   const usernameSubmitToServer = (values) => {
     fetch('http://newnexusvacantsapp-env.eba-ismjscyn.us-east-2.elasticbeanstalk.com/auth/signup', {
@@ -52,6 +55,7 @@ export default function Registro({ navigation }) {
         checkForServiceResponse(x)
       })
   }
+
 
   const checkForServiceResponse = (x) => {
     let message = x.message
