@@ -7,9 +7,9 @@ import BackIcon from '../components/backIcon'
 
 export default function Registro({ navigation }) {
 
-  const [textInputName, setTextInputName] = useState('')
-  const [textInputEmail, setTextInputEmail] = useState('')
-  const [textInputUsername, setTextInputUsername] = useState('')
+  const [textInputName, setTextInputName] = useState(null)
+  const [textInputEmail, setTextInputEmail] = useState(null)
+  const [textInputUsername, setTextInputUsername] = useState(null)
   const [textInputPassword, setTextInputPassword] = useState('')
   const [textInputGender, setTextInputGender] = useState('')
 
@@ -27,7 +27,7 @@ export default function Registro({ navigation }) {
       createObjectData();
     }
   }
-  
+
   const createObjectData = () => {
     values = {
       username: textInputUsername,
@@ -79,7 +79,7 @@ export default function Registro({ navigation }) {
         <TextInput style={styles.input} onChangeText={(value) => setTextInputName(value)} placeholder=" Nombre y apellido" placeholderTextColor="#9a73ef"> </TextInput>
         <TextInput style={styles.input} onChangeText={(value) => setTextInputEmail(value)} placeholder=" Correo electronico" placeholderTextColor="#9a73ef"> </TextInput>
         <TextInput style={styles.input} onChangeText={(value) => setTextInputUsername(value)} placeholder=" Usuario" placeholderTextColor="#9a73ef"> </TextInput>
-        <TextInput style={styles.input} onChangeText={(value) => setTextInputPassword(value)} placeholder=" Contraseña" placeholderTextColor="#9a73ef"> </TextInput>
+        <TextInput  secureTextEntry={true} style={styles.input} onChangeText={(value) => setTextInputPassword(value)} placeholder=" Contraseña" placeholderTextColor="#9a73ef"> </TextInput>
         <TextInput style={styles.input} onChangeText={(value) => setTextInputGender(value)} placeholder=" Sexo" placeholderTextColor="#9a73ef"> </TextInput>
 
         <RegularButton onPressEvent={emptyInputChecker} style={{ marginTop: 15 }} texto={'Aceptar'} color={'#131575'} textColor={'#ffffff'} />
