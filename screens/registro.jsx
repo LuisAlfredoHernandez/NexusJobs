@@ -10,7 +10,7 @@ export default function Registro({ navigation }) {
   const [textInputName, setTextInputName] = useState(null)
   const [textInputEmail, setTextInputEmail] = useState(null)
   const [textInputUsername, setTextInputUsername] = useState(null)
-  const [textInputPassword, setTextInputPassword] = useState('')
+  const [textInputPassword, setTextInputPassword] = useState(null)
   const [textInputGender, setTextInputGender] = useState('')
 
   const emptyInputChecker = () => {
@@ -36,10 +36,10 @@ export default function Registro({ navigation }) {
       email: textInputEmail,
       gender: textInputGender
     }
-    return usernameSubmit(values);
+    return usernameSubmitToServer(values);
   }
 
-  const usernameSubmit = (values) => {
+  const usernameSubmitToServer = (values) => {
     fetch('http://newnexusvacantsapp-env.eba-ismjscyn.us-east-2.elasticbeanstalk.com/auth/signup', {
       method: 'POST',
       headers: {
@@ -49,20 +49,24 @@ export default function Registro({ navigation }) {
     })
       .then(x => x.json())
       .then(x => {
-        let  message = x.message 
-        if (x.code) {
-          return Alert.alert(
-            'Usuario Creado!',
-            'Usuario creado exitosamente.',
-            [ { text: 'Volver a Inicio', onPress: () => navigation.navigate('Login') } ] )
-    
-       }else {
-          Alert.alert(
-            'Hubo un error!',
-            message,
-          )
-        }
+        checkForServiceResponse(x)
       })
+  }
+
+  const checkForServiceResponse = (x) => {
+    let message = x.message
+    if (x.code) {
+      return Alert.alert(
+        'Usuario Creado!',
+        'Usuario creado exitosamente.',
+        [{ text: 'Volver a Inicio', onPress: () => navigation.navigate('Login') }])
+
+    } else {
+      Alert.alert(
+        'Hubo un error!',
+        message,
+      )
+    }
   }
 
 
@@ -76,11 +80,11 @@ export default function Registro({ navigation }) {
       </View>
 
       <View style={styles.textFieldsContainer}>
-        <TextInput style={styles.input} onChangeText={(value) => setTextInputName(value)} placeholder=" Nombre y apellido" placeholderTextColor="#9a73ef"> </TextInput>
-        <TextInput style={styles.input} onChangeText={(value) => setTextInputEmail(value)} placeholder=" Correo electronico" placeholderTextColor="#9a73ef"> </TextInput>
-        <TextInput style={styles.input} onChangeText={(value) => setTextInputUsername(value)} placeholder=" Usuario" placeholderTextColor="#9a73ef"> </TextInput>
-        <TextInput  secureTextEntry={true} style={styles.input} onChangeText={(value) => setTextInputPassword(value)} placeholder=" Contraseña" placeholderTextColor="#9a73ef"> </TextInput>
-        <TextInput style={styles.input} onChangeText={(value) => setTextInputGender(value)} placeholder=" Sexo" placeholderTextColor="#9a73ef"> </TextInput>
+        <TextInput style={styles.input} onChangeText={(value) => setTextInputName(value)} placeholder={" Nombre y apellido"} placeholderTextColor="#9a73ef"> </TextInput>
+        <TextInput style={styles.input} onChangeText={(value) => setTextInputEmail(value)} placeholder={" Correo electronico"} placeholderTextColor="#9a73ef"> </TextInput>
+        <TextInput style={styles.input} onChangeText={(value) => setTextInputUsername(value)} placeholder={" Usuario"} placeholderTextColor="#9a73ef"> </TextInput>
+        <TextInput secureTextEntry={true} style={styles.input} onChangeText={(value) => setTextInputPassword(value)} placeholder={" Contraseña"} placeholderTextColor="#9a73ef"> </TextInput>
+        <TextInput style={styles.input} onChangeText={(value) => setTextInputGender(value)} placeholder={" Sexo"} placeholderTextColor="#9a73ef"> </TextInput>
 
         <RegularButton onPressEvent={emptyInputChecker} style={{ marginTop: 15 }} texto={'Aceptar'} color={'#131575'} textColor={'#ffffff'} />
 
