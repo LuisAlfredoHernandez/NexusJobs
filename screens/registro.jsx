@@ -24,25 +24,10 @@ export default function Registro({ navigation }) {
         { cancelable: false }
       );
     } else {
-      specialCharacktersChecker();
+      createObjectData();
     }
   }
-
-  const specialCharacktersChecker = () => {
-    if (/[^a-zA-Z0-9 ]/.test(textInputPassword) || /[^a-zA-Z0-9 ]/.test(textInputUsername)) {
-      Alert.alert(
-        'Se encontraron caractares no permitidos!',
-        'Evite introducir caracteres especiales.',
-        [
-          { text: 'OK', onPress: () => console.log('OK Pressed') }
-        ],
-        { cancelable: false }
-      );
-    } else {
-      createObjectData()
-    }
-  }
-
+  
   const createObjectData = () => {
     values = {
       username: textInputUsername,
