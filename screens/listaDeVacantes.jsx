@@ -3,10 +3,7 @@ import { StyleSheet, View, SectionList, Text, TouchableOpacity, Share } from 're
 import FooterWT from '../components/footerWithTabs'
 import TabsHeader from '../components/HeaderWithTabs'
 import DevIcon from '../assets/Iconos developer.svg'
-import ManagerIcon from '../assets/manager.svg'
-import AccountantIcon from '../assets/accounting.svg'
 import DesignerIcon from '../assets/Iconos diseño.svg'
-import MarketingIcon from '../assets/social-growth.svg'
 import ShareIcon from '../assets/Iconos compartir.svg'
 
 export default function ListaVacantes({ navigation }) {
@@ -24,7 +21,7 @@ export default function ListaVacantes({ navigation }) {
             },
         }).then(x => x.json())
             .then(x => {
-                orderData(x)
+                orderServerData(x)
             })
     }
 
@@ -40,9 +37,9 @@ export default function ListaVacantes({ navigation }) {
     }
 
 
-    const orderData = (response) => {
+    const orderServerData = (response) => {
         if (searchParameter === 'byDate') {
-            return orderDataByDate(response)
+            return orderServerDataByDate(response)
         }
         else if (searchParameter === 'byPosition') {
             return orderDatadByPosition(response)
@@ -55,7 +52,7 @@ export default function ListaVacantes({ navigation }) {
 
     //order data by date flow
 
-    const orderDataByDate = (response) => {
+    const orderServerDataByDate = (response) => {
         let res = response.sort(function (a, b) {
             return Date.parse(b.creationDate) < Date.parse(a.creationDate);
         });
@@ -75,10 +72,9 @@ export default function ListaVacantes({ navigation }) {
 
     const orderByDateOrAlfabethFilterForCarousel = (item) => {
         let arrToSend = []
-        let res = serverResponse.map((item) => {
-            arrToSend.push(item.data[0])
-        })
-
+        for (let i = 0; i < serverResponse.length; i++) {
+            arrToSend.push(serverResponse[i].data[0])
+        }
         AddItemSelectedAsFirstIndex(arrToSend, item)
         navigation.navigate('Carousel', { data: arrToSend })
     }
@@ -88,20 +84,24 @@ export default function ListaVacantes({ navigation }) {
     //Ordering by position flow
 
     const orderDatadByPosition = (response) => {
+        let dataByPosition = orderDataByPositionFilter(response)
+        return serializeOrderedByPosition(dataByPosition)
+    }
+
+    const orderDataByPositionFilter = (arr) => {
         const developerArr = [], managerArr = [], contableArr = [], directorArr = []
-        let resFixed = response.map((item) => {
-            if (item.rol.charAt(0).toUpperCase() + item.rol.slice(1) === 'Developer') {
-                developerArr.push(item)
-            } else if (item.rol === 'Manager') {
-                managerArr.push(item)
-            } else if (item.rol === 'Contable') {
-                contableArr.push(item)
-            } else if (item.rol === 'Director') {
-                directorArr.push(item)
+        for (let i = 0; i < arr.length; i++) {
+            if (arr[i].rol.charAt(0).toUpperCase() + arr[i].rol.slice(1) === 'Developer') {
+                developerArr.push(arr[i])
+            } else if (arr[i].rol === 'Manager') {
+                managerArr.push(arr[i])
+            } else if (arr[i].rol === 'Contable') {
+                contableArr.push(arr[i])
+            } else if (arr[i].rol === 'Director') {
+                directorArr.push(arr[i])
             }
-        })
-        const mainObject = { developer: developerArr, manager: managerArr, contable: contableArr, director: directorArr }
-        return serializeOrderedByPosition(mainObject)
+        }
+        return mainObject = { developer: developerArr, manager: managerArr, contable: contableArr, director: directorArr }
     }
 
     const serializeOrderedByPosition = (mainObject) => {
@@ -113,6 +113,12 @@ export default function ListaVacantes({ navigation }) {
 
     const orderByPositionFilterForCarousel = (item) => {
         let arrToSend = []
+        let dataSegregatedByPosition =  orderByPositionArrForCarousel(arrToSend, item)
+        AddItemSelectedAsFirstIndex(dataSegregatedByPosition, item)
+        navigation.navigate('Carousel', { data: dataSegregatedByPosition })
+    }
+
+    const orderByPositionArrForCarousel = (arrToSend, item) => {
         if (serverResponse[0].data[0].rol.charAt(0).toUpperCase() + item.rol.slice(1) === item.rol.charAt(0).toUpperCase() + item.rol.slice(1)) {
             arrToSend = serverResponse[0].data
         } else if (serverResponse[1].data[0].rol === item.rol) {
@@ -122,10 +128,8 @@ export default function ListaVacantes({ navigation }) {
         } else if (serverResponse[3].data[0].rol === item.rol) {
             arrToSend = serverResponse[3].data
         }
-        AddItemSelectedAsFirstIndex(arrToSend, item)
-        navigation.navigate('Carousel', { data: arrToSend })
+        return arrToSend
     }
-
 
 
     // Order Data by Alfabeth flow
@@ -173,20 +177,18 @@ export default function ListaVacantes({ navigation }) {
         arr.unshift(item)
     }
 
-
-    const selectFilterData = (item) => {
+    const selectTypeOfFilterForData = (item) => {
         if (searchParameter === 'byPosition')
             return orderByPositionFilterForCarousel(item)
         else
             return orderByDateOrAlfabethFilterForCarousel(item)
     }
 
-
-    const onShare = async (item) => {
+    const onShareJobPosition = async (item) => {
         try {
             const result = await Share.share({
                 message:
-                    `Rol: ${item.rol}. 
+              `Rol: ${item.rol}. 
                Posición: ${item.name}. 
                Descripcion: ${item.shortDescription}.
                Responsabilidades: ${item.longDescription}.`
@@ -200,28 +202,12 @@ export default function ListaVacantes({ navigation }) {
         const newData = serverResponse.filter((item) => {
             const itemData = item.data[0].name.toUpperCase()
             const textData = text.toUpperCase();
-
             return itemData.indexOf(textData) > -1;
         });
         setDataMutated(newData);
     }
 
 
-
-    const IconTypeConditional = (rol) => {
-        let jobRol = rol.charAt(0).toUpperCase() + rol.slice(1)
-
-        switch (jobRol) {
-            case 'Developer':
-                return <DevIcon style={styles.jobIcon} />
-            case 'Director':
-                return <MarketingIcon style={styles.jobIcon} />
-            case 'Manager':
-                return <ManagerIcon style={styles.jobIcon} />
-            case 'Contable':
-                return <AccountantIcon style={styles.jobIcon} />
-        }
-    }
 
     return (
         <View style={styles.container}>
@@ -252,6 +238,7 @@ export default function ListaVacantes({ navigation }) {
                 </View>
             </View>
 
+
             <View style={styles.segmentation}>
                 <SectionList
                     sections={serverDataMutated.length > 1 ? serverDataMutated : serverResponse}
@@ -259,7 +246,7 @@ export default function ListaVacantes({ navigation }) {
                     renderItem={({ item }) =>
                         <View style={styles.segmentMainContainer}>
                             <TouchableOpacity
-                                style={styles.buttonContainer} onPress={() => selectFilterData(item)}>
+                                style={styles.buttonContainer} onPress={() => selectTypeOfFilterForData(item)}>
                                 <View style={styles.jobIconContainer}>
                                     {item.rol.charAt(0).toUpperCase() + item.rol.slice(1) === 'Developer' ? <DevIcon style={styles.jobIcon} /> : <DesignerIcon style={styles.jobIcon} />}
                                 </View>
@@ -275,7 +262,7 @@ export default function ListaVacantes({ navigation }) {
 
                                 <View style={styles.shareIconContainer}>
                                     <TouchableOpacity
-                                        onPress={() => onShare(item)}>
+                                        onPress={() => onShareJobPosition(item)}>
                                         <ShareIcon style={styles.shareIcon} />
                                     </TouchableOpacity>
                                 </View>

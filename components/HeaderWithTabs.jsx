@@ -9,7 +9,12 @@ export default function TabsFooter(props) {
     return (
         <View style={styles.container}>
             <View style={styles.headerInputContainer}>
-                <TextInput autoCapitalize={"none"} onChangeText={text => textInputFunction(text)} style={styles.headerInput} placeholder={'Buscar empleos'}/>
+                <TextInput 
+                autoCapitalize={"none"} 
+                onChangeText={text => textInputFunction(text)}
+                 style={styles.headerInput} 
+                 placeholder={'  Buscar empleos'}
+                 placeholderTextColor={'#A7A1F3'}/>
             </View>
         </View>
     );
