@@ -9,6 +9,7 @@ export default function Login({ navigation }) {
     const [usernameInput, setUsernameInput] = useState('')
     const [passwordInput, setPasswordInput] = useState('')
 
+    
     const checkForEmptyInputs = () => {
         if (!usernameInput.trim() || !passwordInput.trim()) {
             Alert.alert(

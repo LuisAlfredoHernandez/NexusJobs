@@ -14,6 +14,7 @@ export default function CarouselScreen({ navigation }) {
     const [index, setIndex] = useState(0)
     const [data, setData] = useState([])
 
+    
     useEffect(() => {
         setData(navigation.getParam('data'))
     }, [])
@@ -97,7 +98,7 @@ export default function CarouselScreen({ navigation }) {
                     <Text style={{ color: '#A7A1F3', fontSize: 17, fontWeight: 'bold', marginLeft: -12 }}>BACK</Text>
                 </TouchableOpacity>
             </View>
-            
+
             <Carousel
                 data={data}
                 renderItem={_renderItem}
