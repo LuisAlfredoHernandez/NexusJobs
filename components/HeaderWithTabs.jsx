@@ -1,12 +1,20 @@
 import React from 'react'
 import { StyleSheet, View, TextInput } from 'react-native'
 
-export default function TabsFooter() {
+
+export default function TabsFooter(props) {
+ 
+    const {textInputFunction} = props
 
     return (
         <View style={styles.container}>
             <View style={styles.headerInputContainer}>
-                <TextInput style={styles.headerInput} placeholder={'Buscar empleos'}> </TextInput>
+                <TextInput 
+                autoCapitalize={"none"} 
+                onChangeText={text => textInputFunction(text)}
+                 style={styles.headerInput} 
+                 placeholder={'  Buscar empleos'}
+                 placeholderTextColor={'#A7A1F3'}/>
             </View>
         </View>
     );
@@ -29,10 +37,10 @@ const styles = StyleSheet.create({
 
     headerInput: {
         width: '77%',
-        height:33,
+        height: 33,
         borderRadius: 7,
         backgroundColor: '#ffffff',
-        marginTop:40
+        marginTop: 40,
     },
 
 })

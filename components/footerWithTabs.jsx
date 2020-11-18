@@ -10,14 +10,17 @@ export default function TabsNavFooter() {
         <View style={styles.container}>
 
             <View style={styles.iconosContainer}>
+
                 <TouchableOpacity style={styles.icons}>
                     <IconoPerfil />
                     <Text style={styles.iconsText}>Perfil</Text>
                 </TouchableOpacity>
 
-                <TouchableOpacity style={styles.icons}>
-                    <IconoLista />
-                    <Text style={styles.iconsText} >Lista de Vacantes</Text>
+                <TouchableOpacity style={styles.iconSelected}>
+                    <View style={{ height: 70, width: 65, backgroundColor: 'white', borderRadius:3 }}>
+                        <IconoLista height={40} />
+                        <Text style={styles.iconsText}>Lista de Vacantes</Text>
+                    </View>
                 </TouchableOpacity>
 
                 <TouchableOpacity style={styles.icons}>
@@ -36,28 +39,32 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: '#483EE8',
         alignItems: 'center',
-     
     },
 
     iconosContainer: {
         flexDirection: 'row',
         width: '85%',
-        justifyContent:'space-around',
+        justifyContent: 'space-around',
     },
 
     icons: {
         width: '20%',
         height: 33,
-        marginTop:15,
-        alignItems:'center'
+        marginTop: 15,
+        alignItems: 'center',
     },
-    
-    iconsText:{
-        textAlign:'center',
-        height:40,
-        fontSize:10,
-        width:70
-        
+
+    iconSelected: {
+        width: '20%',
+        height: 33,
+        alignItems: 'center'
+    },
+
+    iconsText: {
+        textAlign: 'center',
+        height: 40,
+        fontSize: 10,
+        width: 68
     }
 
 })

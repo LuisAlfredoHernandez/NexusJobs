@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
 import { StyleSheet, Text, View, TextInput, Alert } from 'react-native'
-//import AsyncStorage from  '@react-native-community/async-storage'
 import RegularButton from '../components/regularButton'
 import LogoType from '../assets/Iconos nexusJob Color.svg'
 import Footer from '../components/footer'
@@ -10,6 +9,7 @@ export default function Login({ navigation }) {
     const [usernameInput, setUsernameInput] = useState('')
     const [passwordInput, setPasswordInput] = useState('')
 
+    
     const checkForEmptyInputs = () => {
         if (!usernameInput.trim() || !passwordInput.trim()) {
             Alert.alert(
@@ -21,28 +21,13 @@ export default function Login({ navigation }) {
                 { cancelable: false }
             );
         } else {
-            checkForSpecialCharacters()
-        }
-    }
-
-    const checkForSpecialCharacters = () => {
-        if (/[^a-zA-Z0-9 ]/.test(usernameInput) ) {
-            Alert.alert(
-                'Se encontraron caractares no permitidos!',
-                'Evite introducir caracteres especiales.',
-                [
-                    { text: 'OK', onPress: () => console.log('OK Pressed') }
-                ],
-                { cancelable: false }
-            );
-        } else {
             createObjectData()
         }
-
     }
 
+
     const createObjectData = () => {
-        values = {
+        const values = {
             username: usernameInput.trim(),
             password: passwordInput.trim()
         }
@@ -60,20 +45,22 @@ export default function Login({ navigation }) {
         })
             .then(x => x.json())
             .then(x => {
-                if (x.accessToken) {
-                   // AsyncStorage.setItem('token', x.accessToken)
-                    navigation.navigate('JobsList', { token:x.accessToken } )
-               }else {
-                  Alert.alert(
-                    'Error!',
-                    'Constraseña incorrecta.',
-                  )
-                  console.log(x)
-                }
-              })
-                    
+                postLoginResponseChecker(x)
+            })
     }
 
+
+    const postLoginResponseChecker = (x) => {
+        if (x.accessToken) {
+            navigation.navigate('JobsList', { token: x.accessToken })
+        } else {
+            Alert.alert(
+                'Error!',
+                'Constraseña incorrecta.',
+            )
+            console.log(x)
+        }
+    }
 
     return (
         <View style={styles.container}>
@@ -84,9 +71,21 @@ export default function Login({ navigation }) {
             <View style={styles.loginBasicComponents}>
                 <View style={styles.credentialsContainer}>
                     <Text style={styles.loginContainerText}>Usuario</Text>
-                    <TextInput autoCapitalize='none' onChangeText={(value) => setUsernameInput(value)} placeholder='Carlos Martinez001' style={styles.creadentialsInput}> </TextInput>
+                    <TextInput style={styles.creadentialsInput}
+                        placeholder='Carlos Martinez001'
+                        placeholderTextColor='#9a73ef'
+                        autoCapitalize='none'
+                        onChangeText={value => setUsernameInput(value)}>
+                    </TextInput>
+
                     <Text style={styles.loginContainerText}>Contraseña</Text>
-                    <TextInput autoCapitalize='none' onChangeText={(value) => setPasswordInput(value)} placeholder='**********' style={styles.creadentialsInput}> </TextInput>
+                    <TextInput style={styles.creadentialsInput}
+                        placeholder='**********'
+                        placeholderTextColor='#9a73ef'
+                        secureTextEntry={true}
+                        autoCapitalize='none'
+                        onChangeText={value => setPasswordInput(value)}>
+                    </TextInput>
                 </View>
 
                 <View style={styles.forgotPasswordContainer}>
@@ -94,15 +93,22 @@ export default function Login({ navigation }) {
                 </View>
 
                 <View style={styles.loginButtonsContainer}>
-                    <RegularButton onPressEvent={checkForEmptyInputs} color={'#483EE8'} texto={'Iniciar sesión'} textColor={'#ffffff'} />
-                    <RegularButton onPressEvent={() => navigation.push('Register')} color={'#133463'} texto={'Registrarme'} textColor={'#ffffff'} />
+                    <RegularButton
+                        onPressEvent={checkForEmptyInputs}
+                        color='#483EE8'
+                        texto='Iniciar sesión'
+                        textColor='#ffffff' />
+                    <RegularButton
+                        onPressEvent={() => navigation.push('Register')}
+                        color='#133463'
+                        texto='Registrarme'
+                        textColor='#ffffff' />
                 </View>
             </View>
 
             <View style={styles.footer}>
-                <Footer iconsBackgroundColor={'#EDF1F7'} IconsTitleBackground={'#133463'} />
+                <Footer iconsBackgroundColor='#EDF1F7' IconsTitleBackground='#133463' />
             </View>
-
         </View>
     );
 }
@@ -154,7 +160,7 @@ const styles = StyleSheet.create({
         borderBottomWidth: 1,
         borderBottomColor: '#A7A1F3',
         marginTop: 5,
-        width: '90%'
+        width: '90%',
     },
 
     forgotPasswordContainer: {
