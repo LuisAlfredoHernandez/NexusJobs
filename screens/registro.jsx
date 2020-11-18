@@ -39,7 +39,7 @@ export default function Registro({ navigation }) {
 
 
   const createObjectData = () => {
-    values = {
+   let values = {
       username: textInputUsername,
       password: textInputPassword,
       fullName: textInputName,
@@ -50,7 +50,7 @@ export default function Registro({ navigation }) {
   }
 
 
-  const usernameSubmitToServer =  (values) => {
+  const usernameSubmitToServer = values => {
     fetch('http://newnexusvacantsapp-env.eba-ismjscyn.us-east-2.elasticbeanstalk.com/auth/signup', {
       method: 'POST',
       headers: {
@@ -60,19 +60,18 @@ export default function Registro({ navigation }) {
     })
       .then(x => x.json())
       .then(x => {
-        checkForServiceResponse(x)
+        checkForServiceResponse(x) 
       })
   }
 
 
   const checkForServiceResponse = (x) => {
-    let message = x.message
-    if (x.code) {
+    const {code, message} = x
+    if (code) {
       return Alert.alert(
         'Usuario Creado!',
         'Usuario creado exitosamente.',
-        [{ text: 'Volver a Inicio', onPress: () => navigation.navigate('Login') }])
-
+        [{ text: 'Volver a Inicio', onPress:() => navigation.navigate('Login') }])
     } else {
       Alert.alert(
         'Hubo un error!',
