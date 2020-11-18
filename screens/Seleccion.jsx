@@ -1,19 +1,24 @@
-import React from 'react'
+import React, {useState, useEffect} from 'react'
 import { StyleSheet, View, Text } from 'react-native'
 import RegularButton from '../components/regularButton'
 import BackButton from '../components/backIcon'
 
 export default function Seleccion( { navigation } ) {
-   const {registerUser} = props;
+
+const [gender, setGender] = useState('')
+const [boton1SelectedTextColor, setBoton1SelectedTextColor] = useState('#9a73ef')
+const [boton2SelectedTextColor, setBoton2SelectedTextColor] = useState('#9a73ef')
+
+
   return (
     <View style={styles.container}>
       <View style={styles.headerContainer}>
-        <BackButton onPressEvent={ ()=> navigation.goBack()} style={ styles.backButton } color={'#EDF1F7f0'} />
+        <BackButton onPressEvent={()=> navigation.navigate('Register',{gender:gender})} style={ styles.backButton } color='#EDF1F7f0'/>
         <Text style={styles.headerText}>Seleccione</Text>
       </View>
       <View style={styles.buttonsContainer}>
-        <RegularButton onPressEvent={ registerUser } texto={'Masculino'} color={'#EDF1F7f0'} textColor={'#9a73ef'} />
-        <RegularButton texto={'Femenino'} color={'#EDF1F7f0'} textColor={'#9a73ef'} />
+        <RegularButton onPressEvent={()=>setGender('Masculino')} texto='Masculino' color='#EDF1F7f0' textColor={boton1SelectedTextColor}/>
+        <RegularButton onPressEvent={()=>setGender('Femenino')} texto='Femenino' color='#EDF1F7f0' textColor={boton2SelectedTextColor}/>
       </View>
     </View>
   );

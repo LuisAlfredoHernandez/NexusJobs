@@ -1,8 +1,9 @@
-import React, { useState } from 'react'
-import { StyleSheet, TextInput, View, Text, Alert } from 'react-native'
+import React, { useState, useEffect } from 'react'
+import { StyleSheet, TextInput, View, Text, Alert, TouchableOpacity } from 'react-native'
 import RegularButton from '../components/regularButton'
 import Footer from '../components/footer'
 import BackIcon from '../components/backIcon'
+import NextIcon from '../assets/Iconos adelante.svg'
 
 
 export default function Registro({ navigation }) {
@@ -12,6 +13,13 @@ export default function Registro({ navigation }) {
   const [textInputUsername, setTextInputUsername] = useState('')
   const [textInputPassword, setTextInputPassword] = useState('')
   const [textInputGender, setTextInputGender] = useState('')
+
+
+   useEffect(() => {
+      if(navigation.getParam('gender')){
+        setTextInputGender(navigation.getParam('gender'))
+      }
+   },[navigation])
 
 
   const emptyInputChecker = () => {
@@ -38,11 +46,11 @@ export default function Registro({ navigation }) {
       email: textInputEmail,
       gender: textInputGender
     }
-    return usernameSubmitToServer(values);
+    usernameSubmitToServer(values);
   }
 
 
-  const usernameSubmitToServer = (values) => {
+  const usernameSubmitToServer =  (values) => {
     fetch('http://newnexusvacantsapp-env.eba-ismjscyn.us-east-2.elasticbeanstalk.com/auth/signup', {
       method: 'POST',
       headers: {
@@ -63,7 +71,7 @@ export default function Registro({ navigation }) {
       return Alert.alert(
         'Usuario Creado!',
         'Usuario creado exitosamente.',
-        [{ text: 'Volver a Inicio', onPress:() => navigation.navigate('Login') }])
+        [{ text: 'Volver a Inicio', onPress: () => navigation.navigate('Login') }])
 
     } else {
       Alert.alert(
@@ -84,37 +92,42 @@ export default function Registro({ navigation }) {
 
       <View style={styles.textFieldsContainer}>
         <TextInput style={styles.input}
-          placeholder=' Nombre y apellido'
+          placeholder='   Nombre y apellido '
           placeholderTextColor='#9a73ef'
           onChangeText={value => setTextInputName(value)}>
         </TextInput>
+
         <TextInput style={styles.input}
-          placeholder=' Correo electronico'
+          placeholder='   Correo electronico'
           placeholderTextColor='#9a73ef'
           onChangeText={value => setTextInputEmail(value)}>
         </TextInput>
+
         <TextInput style={styles.input}
-          placeholder=' Usuario'
+          placeholder='   Usuario'
           placeholderTextColor='#9a73ef'
           onChangeText={value => setTextInputUsername(value)}>
         </TextInput>
+
         <TextInput style={styles.input}
-          placeholder=' Contraseña'
+          placeholder='   Contraseña'
           placeholderTextColor='#9a73ef'
           secureTextEntry={true}
           onChangeText={value => setTextInputPassword(value)}>
         </TextInput>
-        <TextInput style={styles.input}
-          placeholder=' Sexo'
-          placeholderTextColor='#9a73ef'
-          onChangeText={value => setTextInputGender(value)}>
-        </TextInput>
+
+        <TouchableOpacity
+          style={[styles.input, { justifyContent: 'space-between', flexDirection: 'row' }]}
+          onPress={()=> navigation.navigate('Selection')} >
+          <Text style={styles.sexoButtonText}>{textInputGender ? textInputGender : 'Sexo'}</Text>
+          <NextIcon style={styles.sexoButtonIcon} />
+        </TouchableOpacity>
 
         <RegularButton onPressEvent={emptyInputChecker} style={{ marginTop: 15 }} texto='Aceptar' color='#131575' textColor='#ffffff' />
       </View>
 
       <View style={styles.footerContainer}>
-        <Footer iconsBackgroundColor='#483EE8' IconsTitleBackground='#ffffff'/>
+        <Footer iconsBackgroundColor='#483EE8' IconsTitleBackground='#ffffff' />
       </View>
     </View>
   );
@@ -156,6 +169,7 @@ const styles = StyleSheet.create({
     width: '90%',
     backgroundColor: '#f7f5f2',
     borderRadius: 5,
+    fontSize: 15
   },
 
   textButton: {
@@ -168,6 +182,20 @@ const styles = StyleSheet.create({
 
   footerContainer: {
     flex: 0.8
+  },
+
+  sexoButtonIcon: {
+    marginRight: 10,
+    marginTop: 10,
+    height: 23,
+    width: 15
+  },
+
+  sexoButtonText: {
+    color: '#9a73ef',
+    marginLeft: 15,
+    fontSize: 16,
+    marginTop: 12
   }
 
 });
