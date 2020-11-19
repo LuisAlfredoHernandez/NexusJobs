@@ -9,7 +9,10 @@ import CarouselScreen from '../screens/carousel'
 const screens = {
 
     Login: {
-        screen: LoginScreen
+        screen: LoginScreen,
+        navigationOptions: {
+            headerShown:false,
+          }
     },
     
     Register:{
