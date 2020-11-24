@@ -142,9 +142,10 @@ const styles = StyleSheet.create({
 
     JobIconContainer: {
         borderColor: '#ededed',
+         marginTop:-20,
         borderWidth: 2,
-        width: 60,
-        height: 60,
+        width: 95,
+        height: 90,
         alignItems: 'center',
         justifyContent: 'center',
         borderRadius: 8,
@@ -191,6 +192,7 @@ const styles = StyleSheet.create({
     descriptionContainer: {
         width: '90%',
         justifyContent: 'center',
+        marginTop:10
     },
 
     detailContainer: {
